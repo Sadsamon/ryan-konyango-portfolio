@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ryan — Software Developer / Engineer</title>
+  <meta name="description" content="Backend-focused software developer — architecture, data engineering, and full-stack builds across three continents.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- PRELOADER -->
+  <div id="preloader" class="preloader" aria-hidden="true">
+    <span id="preloader-count" class="preloader-count mono">0</span>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero" class="section hero">
+    <span class="hero-type" aria-hidden="true">RYAN</span>
+
+    <div class="hero-frame">
+      <img src="assets/images/portrait.jpg" alt="Portrait of Ryan" class="hero-photo">
+    </div>
+
+    <div class="hero-copy">
+      <h1 class="hero-title">Software Developer <span class="hero-title-accent">/</span> Engineer</h1>
+      <p class="hero-statement">I build backend systems and full-stack platforms — from cultural archives to predictive pipelines — across three continents.</p>
+    </div>
+  </section>
+
+  <!-- 3D GLOBE + GLOBAL JOURNEY -->
+  <section id="globe" class="section globe-section">
+    <div class="globe-intro">
+      <h2>Global Journey</h2>
+      <p class="mono globe-sub">five countries — one build history</p>
+    </div>
+
+    <div class="globe-stage">
+      <canvas id="globe-canvas"></canvas>
+    </div>
+
+    <nav class="globe-legend" aria-label="Jump to a region">
+      <button class="pin-btn" data-region="zimbabwe">Zimbabwe</button>
+      <button class="pin-btn" data-region="south-africa">South Africa</button>
+      <button class="pin-btn" data-region="kenya">Kenya</button>
+      <button class="pin-btn" data-region="india">India</button>
+      <button class="pin-btn" data-region="china">China</button>
+    </nav>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section projects-section">
+    <h2 class="projects-heading">Projects</h2>
+
+    <div class="projects-layout">
+      <div class="projects-list">
+
+        <article class="project-card"
+          data-title="Annsana"
+          data-status="shipped · 2026–present"
+          data-stack="Django 5, PostgreSQL 16, HTMX, Celery, Redis, Docker">
+          <div class="project-reveal">
+            <span class="project-index mono">01</span>
+            <h3 class="project-title">Annsana</h3>
+            <p class="project-summary">End-to-end platform for African cultural-heritage preservation — media management, user workflows, and secure transactions.</p>
+            <ul class="project-highlights">
+              <li>Architected the database schema, REST API, auth, and deployment pipeline from scratch</li>
+              <li>Async image-processing workflow via Celery, Redis, and Pillow</li>
+              <li>Versioned DRF endpoints secured with OAuth2/JWT, rate-limited via Redis</li>
+              <li>Full CI/CD via GitHub Actions and Docker, with test coverage on auth and rate-limiting flows</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card"
+          data-title="UniTrack"
+          data-status="complete"
+          data-stack="Python, Node.js, MongoDB, Scikit-learn, Firebase">
+          <div class="project-reveal">
+            <span class="project-index mono">02</span>
+            <h3 class="project-title">UniTrack</h3>
+            <p class="project-summary">Academic performance and attendance tracking system that predicts attendance behavior and triggers automated alerts.</p>
+            <ul class="project-highlights">
+              <li>Linear regression model behind REST endpoints — 92% prediction accuracy</li>
+              <li>Real-time alerts via Firebase webhooks</li>
+              <li>MongoDB schemas for longitudinal student records</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card"
+          data-title="ETL & Forecasting Pipeline"
+          data-status="production-ready"
+          data-stack="Python, PostgreSQL, Scikit-learn, Pandas">
+          <div class="project-reveal">
+            <span class="project-index mono">03</span>
+            <h3 class="project-title">ETL &amp; Forecasting Pipeline</h3>
+            <p class="project-summary">Automated pricing intelligence for Africa's construction sector — a data pipeline paired with a forecasting model.</p>
+            <ul class="project-highlights">
+              <li>Ingests, cleans, and structures 1,200+ records into PostgreSQL</li>
+              <li>Random Forest model back-tested over a 5-year window — 82–92% accuracy</li>
+              <li>Cut preprocessing time 60% vs. the legacy manual process</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card"
+          data-title="AI Assistant & Security Framework"
+          data-status="complete"
+          data-stack="Python, NLP, Security">
+          <div class="project-reveal">
+            <span class="project-index mono">04</span>
+            <h3 class="project-title">AI Assistant &amp; Security Framework</h3>
+            <p class="project-summary">Conversational assistant that automates recurring tasks, built alongside a sandbox for testing data-security practices.</p>
+            <ul class="project-highlights">
+              <li>NLP-driven text processing and task automation</li>
+              <li>Used the build cycle as a testing ground to surface vulnerabilities and harden safeguards</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card"
+          data-title="Resume / CV Site"
+          data-status="deployed"
+          data-stack="JavaScript, HTML/CSS">
+          <div class="project-reveal">
+            <span class="project-index mono">05</span>
+            <h3 class="project-title">Resume / CV Site</h3>
+            <p class="project-summary">An earlier personal site presenting credentials and project breakdowns dynamically.</p>
+            <ul class="project-highlights">
+              <li>Modular layout, responsive grid, fast load times</li>
+              <li>Clear information hierarchy for technical competencies</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card"
+          data-title="Community Development — Harare"
+          data-status="completed"
+          data-stack="">
+          <div class="project-reveal">
+            <span class="project-index mono">06</span>
+            <h3 class="project-title">Community Development — Harare</h3>
+            <p class="project-summary">Grassroots IT education and infrastructure support through St. George's College's community service program.</p>
+            <ul class="project-highlights">
+              <li>Two weeks on-site at a local orphanage teaching computer literacy</li>
+              <li>Led a follow-up fundraiser to help build new classrooms</li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+
+      <aside class="projects-panel" id="projects-panel">
+        <p class="panel-label mono">now viewing</p>
+        <h4 class="panel-title" id="panel-title">—</h4>
+        <p class="panel-status mono" id="panel-status"></p>
+        <div class="panel-stack" id="panel-stack"></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ACADEMIC & GLOBAL EXPERIENCE GRID -->
+  <!-- Full grid content (degrees, milestones, language) lands in Phase 5.       -->
+  <!-- Region anchors + return-pins exist now so the globe's zoom navigation works. -->
+  <section id="experience" class="section" data-phase="5">
+    <div id="exp-zimbabwe" class="exp-region">
+      <button class="return-pin mono" data-target="globe">◂ globe</button>
+      <h3>Zimbabwe</h3>
+    </div>
+    <div id="exp-south-africa" class="exp-region">
+      <button class="return-pin mono" data-target="globe">◂ globe</button>
+      <h3>South Africa</h3>
+    </div>
+    <div id="exp-kenya" class="exp-region">
+      <button class="return-pin mono" data-target="globe">◂ globe</button>
+      <h3>Kenya</h3>
+    </div>
+    <div id="exp-india" class="exp-region">
+      <button class="return-pin mono" data-target="globe">◂ globe</button>
+      <h3>India</h3>
+    </div>
+    <div id="exp-china" class="exp-region">
+      <button class="return-pin mono" data-target="globe">◂ globe</button>
+      <h3>China</h3>
+    </div>
+  </section>
+
+  <!-- TERMINAL CONTACT — built in Phase 6 -->
+  <section id="contact" class="section" data-phase="6">
+    <!-- command-line style contact interface -->
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

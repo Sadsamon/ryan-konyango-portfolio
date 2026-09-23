@@ -1,0 +1,402 @@
+/* ==========================================================================
+   DESIGN TOKENS
+   Palette: charcoal / brown base, orange active-state accent, burgundy depth.
+   No purple, anywhere, ever.
+   ========================================================================== */
+
+:root {
+  /* Color */
+  --bg-primary:      #1A1613;  /* charcoal-brown base */
+  --bg-secondary:    #2B2118;  /* rich brown, section differentiation */
+  --text-primary:    #EDE6DC;  /* warm off-white */
+  --text-muted:      #8C8177;  /* warm gray, secondary text */
+  --accent-orange:   #E67E22;  /* active states, highlights */
+  --accent-burgundy: #6E2B3A;  /* depth, secondary emphasis */
+
+  /* Type */
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  /* Spacing scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 8rem;
+
+  /* Layout */
+  --content-max-width: 720px;
+  --edge-padding: clamp(1.5rem, 5vw, 4rem);
+}
+
+/* ==========================================================================
+   RESET
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+/* ==========================================================================
+   TYPOGRAPHY
+   ========================================================================== */
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+code, pre, .mono {
+  font-family: var(--font-mono);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+/* No :hover rules — every state change is click/tap/scroll-driven. */
+
+/* ==========================================================================
+   SECTION SHELL
+   Each phase fills its section in; this just establishes the scroll rhythm.
+   ========================================================================== */
+
+.section {
+  min-height: 100vh;
+  padding: var(--space-xl) var(--edge-padding);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section:nth-of-type(even) {
+  background: var(--bg-secondary);
+}
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-primary);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preloader-count {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: var(--accent-orange);
+  letter-spacing: 0.05em;
+}
+
+.preloader-count::after {
+  content: '%';
+  color: var(--text-muted);
+  margin-left: 2px;
+}
+
+/* ==========================================================================
+   HERO
+   Name set large behind the photo frame; frame clipped with an angled
+   corner to keep the "architectural" edge rather than a plain rectangle.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  overflow: hidden;
+  padding-top: var(--space-lg);
+}
+
+.hero-type {
+  position: absolute;
+  top: 8vh;
+  left: var(--edge-padding);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(4rem, 18vw, 11rem);
+  color: var(--bg-secondary);
+  line-height: 0.9;
+  z-index: 0;
+  user-select: none;
+}
+
+.hero-frame {
+  position: relative;
+  z-index: 1;
+  width: min(70vw, 380px);
+  aspect-ratio: 3 / 4;
+  margin: var(--space-lg) 0 var(--space-md) auto;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 92%, 88% 100%, 0 100%);
+  border: 1px solid var(--accent-orange);
+}
+
+.hero-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: grayscale(1);
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 1;
+  max-width: var(--content-max-width);
+}
+
+.hero-title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.hero-title-accent {
+  color: var(--accent-orange);
+}
+
+.hero-statement {
+  font-family: var(--font-body);
+  color: var(--text-muted);
+  max-width: 42ch;
+  margin-top: var(--space-sm);
+}
+
+@media (min-width: 800px) {
+  .hero {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "copy frame";
+  }
+  .hero-copy { grid-area: copy; align-self: end; }
+  .hero-frame { grid-area: frame; margin: 0; }
+}
+
+/* ==========================================================================
+   GLOBE SECTION
+   ========================================================================== */
+
+.globe-section {
+  align-items: center;
+  text-align: center;
+  gap: var(--space-md);
+}
+
+.globe-intro h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.globe-sub {
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+}
+
+.globe-stage {
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+#globe-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: pan-y;
+}
+
+.globe-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-xs);
+}
+
+.pin-btn {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  background: transparent;
+  border: 1px solid var(--text-muted);
+  padding: 0.5em 1em;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.pin-btn::before {
+  content: '● ';
+  color: var(--accent-orange);
+}
+
+.pin-btn[aria-current="true"] {
+  border-color: var(--accent-orange);
+  color: var(--accent-orange);
+}
+
+/* ==========================================================================
+   EXPERIENCE REGION STUBS (Phase 5 fills these in)
+   ========================================================================== */
+
+.exp-region {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-sm);
+  border-top: 1px solid var(--bg-secondary);
+  padding-top: var(--space-md);
+}
+
+.exp-region:first-child { border-top: none; }
+
+.return-pin {
+  align-self: flex-start;
+  font-size: 0.8rem;
+  color: var(--accent-orange);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25em 0;
+}
+
+/* ==========================================================================
+   PROJECTS
+   ========================================================================== */
+
+.projects-heading {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  margin-bottom: var(--space-lg);
+}
+
+.projects-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+.project-card {
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--bg-secondary);
+  order: 2;
+}
+
+.project-card:first-child { padding-top: 0; }
+
+.project-index {
+  display: block;
+  color: var(--accent-burgundy);
+  margin-bottom: var(--space-xs);
+  font-size: 0.85rem;
+}
+
+.project-title {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin-bottom: var(--space-xs);
+}
+
+.project-summary {
+  color: var(--text-muted);
+  max-width: 60ch;
+  margin-bottom: var(--space-sm);
+}
+
+.project-highlights {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  max-width: 60ch;
+}
+
+.project-highlights li {
+  padding-left: 1.3em;
+  position: relative;
+}
+
+.project-highlights li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent-orange);
+}
+
+.projects-panel {
+  order: 1;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg-secondary);
+  border: 1px solid var(--accent-burgundy);
+  padding: var(--space-sm);
+}
+
+.panel-label {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.panel-title {
+  font-size: 1.1rem;
+  margin: 0.3em 0;
+}
+
+.panel-status {
+  color: var(--accent-orange);
+  font-size: 0.8rem;
+  margin-bottom: 0.6em;
+}
+
+.panel-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+}
+
+.panel-stack span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  border: 1px solid var(--text-muted);
+  border-radius: 3px;
+  padding: 0.2em 0.5em;
+}
+
+@media (min-width: 900px) {
+  .projects-layout {
+    grid-template-columns: 1fr 280px;
+  }
+  .project-card { order: 1; }
+  .projects-panel { order: 2; top: var(--space-md); }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY BASELINE
+   ========================================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--accent-orange);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
