@@ -262,11 +262,10 @@ function setActiveProject(card) {
 // PHASE 6 — TERMINAL CONTACT
 // ==========================================================================
 
-// Replace these with real contact details before deploying.
 const CONTACT = {
-  email:    'your.email@example.com',
-  github:   'https://github.com/Sadsamon',
-  linkedin: 'https://www.linkedin.com/in/your-username'
+  email: 'konyangoryan@gmail.com',
+  github: 'https://github.com/Sadsamon',
+  linkedin: 'https://www.linkedin.com'
 };
 
 function initTerminal() {
@@ -478,4 +477,4 @@ function initTerminal() {
   });
 
   print(line('Type `help` for commands, or drag a file onto this window.', 'out-muted'));
-                      }
+}
