@@ -44,7 +44,6 @@ function runPreloader() {
 }
 
 function animateHeroIn() {
-  // Fallback: If GSAP is missing, don't animate (elements are visible by default)
   if (typeof gsap === 'undefined') return;
 
   const tl = gsap.timeline();
@@ -79,7 +78,6 @@ function initGlobe() {
     const stage = canvas.parentElement;
     const rect = stage.getBoundingClientRect();
     
-    // Fallback for missing dimensions on mobile
     const width = rect.width || 300;
     const height = rect.height || 300;
 
@@ -192,7 +190,6 @@ function goToRegion(regionId) {
       }
     });
   } else {
-    // Fallback if GSAP fails
     camera.position.set(zoomTarget.x, zoomTarget.y, zoomTarget.z);
     camera.lookAt(0, 0, 0);
     const target = document.getElementById('exp-' + regionId);
@@ -298,11 +295,11 @@ function setActiveProject(card) {
 // PHASE 6 — TERMINAL CONTACT
 // ==========================================================================
 
-// ⚠️ MAKE SURE TO REPLACE THESE WITH YOUR REAL DETAILS ⚠️
+// REAL CONTACT DETAILS INSERTED HERE
 const CONTACT = {
-  email:    'your.email@example.com',
+  email:    'konyangoryan@gmail.com',
   github:   'https://github.com/Sadsamon',
-  linkedin: 'https://www.linkedin.com/in/your-username'
+  linkedin: 'https://Linkedin.com/in/ryankonyango'
 };
 
 function initTerminal() {
@@ -509,4 +506,4 @@ function initTerminal() {
   });
 
   print(line('Type `help` for commands, or drag a file onto this window.', 'out-muted'));
-      }
+                }
