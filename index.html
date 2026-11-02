@@ -14,31 +14,44 @@
 </head>
 <body>
 
-  <!-- PRELOADER -->
   <div id="preloader" class="preloader" aria-hidden="true">
     <span id="preloader-count" class="preloader-count mono">0</span>
   </div>
 
-  <!-- HERO -->
+  <!-- HERO / ABOUT -->
   <section id="hero" class="section hero">
     <span class="hero-type" aria-hidden="true">RYAN</span>
 
     <div class="hero-frame">
-      <img src="assets/images/portrait.jpg" alt="Portrait of Ryan" class="hero-photo">
+      <img src="assets/images/portrait.jpg" alt="Ryan, Software Engineer" class="hero-photo">
     </div>
 
     <div class="hero-copy">
       <h1 class="hero-title">Software Developer <span class="hero-title-accent">/</span> Engineer</h1>
-      <p class="hero-statement">I build backend systems and full-stack platforms — from cultural archives to predictive pipelines — across Africa and Asia.</p>
+      
+      <div class="hero-story">
+        <p class="hero-statement"><strong>Who I am & What I Build:</strong><br>I’m Ryan Kevin Omondi Konyango (also known as 瑞安)—a backend software engineer and computer science undergraduate based in Hangzhou, China, originally from Zimbabwe. I specialize in designing scalable backend architectures, distributed task queues, and resilient REST APIs using Python, Django, FastAPI, Node.js, and PostgreSQL. I don't just write code to pass tests; I build modular, production-ready systems grounded in clean architecture and solid data flows.</p>
+        
+        <p class="hero-statement"><strong>My Dream & Why I Do It:</strong><br>My ultimate ambition is to bridge cultures and solve real-world historical and social data representation challenges through software. I believe technology should preserve heritage, streamline human experiences, and empower communities. Whether I’m building a cultural preservation web platform or architecting automated data pipelines, my work is driven by a deep curiosity about how systems interact and a relentless drive to create things that genuinely matter.</p>
+        
+        <p class="hero-statement"><strong>How & Where I Do It:</strong><br>Operating out of university housing in Hangzhou while collaborating across borders, I approach engineering through visual first-principles planning—mapping out complex data flows and state interactions before writing a single line of backend logic. I combine rigorous technical standards with a completionist mindset, leveraging Docker, Redis, Celery, and automated CI/CD pipelines to ensure everything I ship is robust, maintainable, and built to scale.</p>
+
+        <p class="hero-statement"><strong>Goals & Ambitions:</strong><br>I’m currently focused on engineering high-impact distributed systems, expanding my technical footprint across global tech ecosystems, and ultimately stepping into roles where I can architect large-scale backend infrastructure that touches millions of lives.</p>
+      </div>
+      
       <p class="hero-availability mono">Open to all forms of employment, and available for freelance web and app design.</p>
     </div>
   </section>
 
-  <!-- 3D GLOBE + GLOBAL JOURNEY -->
+  <!-- 3D GLOBE -->
   <section id="globe" class="section globe-section">
     <div class="globe-intro">
       <h2>Global Journey</h2>
       <p class="mono globe-sub">five countries — one build history</p>
+      
+      <p class="globe-reason">
+        "I chose a globe to document my journey because my ultimate dream is to experience life to the fullest through global exploration. Having lived, studied, and worked across multiple countries on different continents so far, this globe represents my ongoing commitment to chasing new horizons—because I will not rest until I’ve experienced life, technology, and culture all across this world."
+      </p>
     </div>
 
     <div class="globe-stage">
@@ -60,11 +73,8 @@
 
     <div class="projects-layout">
       <div class="projects-list">
-
-        <article class="project-card"
-          data-title="Annsana"
-          data-status="shipped · 2026–present"
-          data-stack="Django 5, PostgreSQL 16, HTMX, Celery, Redis, Docker">
+        
+        <article class="project-card" data-title="Annsana" data-status="shipped · 2026–present" data-stack="Django 5, PostgreSQL 16, HTMX, Celery, Redis, Docker">
           <div class="project-reveal">
             <span class="project-index mono">01</span>
             <h3 class="project-title">Annsana</h3>
@@ -72,35 +82,23 @@
             <ul class="project-highlights">
               <li>Architected the database schema, REST API, auth, and deployment pipeline from scratch</li>
               <li>Async image-processing workflow via Celery, Redis, and Pillow</li>
-              <li>Versioned DRF endpoints secured with OAuth2/JWT, rate-limited via Redis</li>
-              <li>Full CI/CD via GitHub Actions and Docker, with test coverage on auth and rate-limiting flows</li>
             </ul>
           </div>
         </article>
 
-        <article class="project-card"
-          data-title="Kenzim"
-          data-status="live · in development"
-          data-stack="React, Tailwind CSS, Supabase, Leaflet, Vercel, PWA">
+        <article class="project-card" data-title="Kenzim" data-status="live · in development" data-stack="React, Node.js, Express, MongoDB, Firebase">
           <div class="project-reveal">
             <span class="project-index mono">02</span>
             <h3 class="project-title">Kenzim</h3>
-            <p class="project-summary">Installable progressive web app for the Kenyan community in Zimbabwe — membership, events, news, a member directory, and a community marketplace. Built for a client.</p>
+            <p class="project-summary">Installable progressive web app for the Kenyan community in Zimbabwe — membership, events, news, and a community marketplace.</p>
             <ul class="project-highlights">
-              <li>Installable, offline-capable PWA, deployed on Vercel</li>
-              <li>Supabase auth and Postgres, with a role hierarchy and an admin review flow for new members</li>
-              <li>Dues tracking, events with RSVP and photo gallery, news feed with multi-photo carousel, and member directory</li>
-              <li>Goods marketplace and merch pre-orders, plus a places map on Leaflet and OpenStreetMap</li>
-              <li>Designed to run entirely on free-tier infrastructure</li>
+              <li>Supabase auth and Postgres, with a role hierarchy and admin review flow</li>
+              <li>Dues tracking, events with RSVP, and a places map</li>
             </ul>
-            <p class="project-link mono"><a href="https://kenzim-blue.vercel.app" target="_blank" rel="noopener noreferrer">kenzim-blue.vercel.app</a></p>
           </div>
         </article>
 
-        <article class="project-card"
-          data-title="UniTrack"
-          data-status="complete"
-          data-stack="Python, Node.js, MongoDB, Scikit-learn, Firebase">
+        <article class="project-card" data-title="UniTrack" data-status="complete" data-stack="Node.js, MongoDB, Firebase, Scikit-learn">
           <div class="project-reveal">
             <span class="project-index mono">03</span>
             <h3 class="project-title">UniTrack</h3>
@@ -108,68 +106,50 @@
             <ul class="project-highlights">
               <li>Linear regression model behind REST endpoints — 92% prediction accuracy</li>
               <li>Real-time alerts via Firebase webhooks</li>
-              <li>MongoDB schemas for longitudinal student records</li>
             </ul>
           </div>
         </article>
 
-        <article class="project-card"
-          data-title="ETL & Forecasting Pipeline"
-          data-status="production-ready"
-          data-stack="Python, PostgreSQL, Scikit-learn, Pandas">
+        <article class="project-card" data-title="Construction ETL Pipeline" data-status="production-ready" data-stack="Python, PostgreSQL, Pandas, Scikit-learn">
           <div class="project-reveal">
             <span class="project-index mono">04</span>
-            <h3 class="project-title">ETL &amp; Forecasting Pipeline</h3>
+            <h3 class="project-title">Construction ETL Pipeline</h3>
             <p class="project-summary">Automated pricing intelligence for Africa's construction sector — a data pipeline paired with a forecasting model.</p>
             <ul class="project-highlights">
-              <li>Ingests, cleans, and structures 1,200+ records into PostgreSQL</li>
-              <li>Random Forest model back-tested over a 5-year window — 82–92% accuracy</li>
-              <li>Cut preprocessing time 60% vs. the legacy manual process</li>
+              <li>Random Forest model back-tested over a 5-year window — 82% accuracy</li>
             </ul>
           </div>
         </article>
 
-        <article class="project-card"
-          data-title="AI Assistant & Security Framework"
-          data-status="complete"
-          data-stack="Python, NLP, Security">
+        <article class="project-card" data-title="AI Assistant & Security" data-status="complete" data-stack="Python, LangChain, Celery, Redis, PostgreSQL">
           <div class="project-reveal">
             <span class="project-index mono">05</span>
-            <h3 class="project-title">AI Assistant &amp; Security Framework</h3>
-            <p class="project-summary">Conversational assistant that automates recurring tasks, built alongside a sandbox for testing data-security practices.</p>
+            <h3 class="project-title">AI Assistant &amp; Security</h3>
+            <p class="project-summary">Intelligent guardian that audits system logs autonomously and flags anomalies before they become vulnerabilities.</p>
             <ul class="project-highlights">
-              <li>NLP-driven text processing and task automation</li>
-              <li>Used the build cycle as a testing ground to surface vulnerabilities and harden safeguards</li>
+              <li>Asynchronous task queues paired with LLM-driven inference</li>
             </ul>
           </div>
         </article>
 
-        <article class="project-card"
-          data-title="Resume / CV Site"
-          data-status="deployed"
-          data-stack="JavaScript, HTML/CSS">
+        <article class="project-card" data-title="Freelance Web Application" data-status="delivered" data-stack="React, Supabase, PostgreSQL, Tailwind">
           <div class="project-reveal">
             <span class="project-index mono">06</span>
-            <h3 class="project-title">Resume / CV Site</h3>
-            <p class="project-summary">An earlier personal site presenting credentials and project breakdowns dynamically.</p>
+            <h3 class="project-title">Freelance Web Application</h3>
+            <p class="project-summary">Zimbabwe Client — Delivered a performant, production-grade web app independently.</p>
             <ul class="project-highlights">
-              <li>Modular layout, responsive grid, fast load times</li>
-              <li>Clear information hierarchy for technical competencies</li>
+              <li>Translated vague business requirements into clean, deployable software</li>
             </ul>
           </div>
         </article>
 
-        <article class="project-card"
-          data-title="Community Development — Harare"
-          data-status="completed"
-          data-stack="">
+        <article class="project-card" data-title="Community Development" data-status="completed" data-stack="Leadership, Project Management">
           <div class="project-reveal">
             <span class="project-index mono">07</span>
             <h3 class="project-title">Community Development — Harare</h3>
-            <p class="project-summary">Grassroots IT education and infrastructure support through St. George's College's community service program.</p>
+            <p class="project-summary">Two-way development project at a local orphanage organizing physical, lasting infrastructure for students.</p>
             <ul class="project-highlights">
-              <li>Two weeks on-site at a local orphanage teaching computer literacy</li>
-              <li>Led a follow-up fundraiser to help build new classrooms</li>
+              <li>Led teams through high-stakes fundraising and brick-and-mortar execution</li>
             </ul>
           </div>
         </article>
@@ -177,11 +157,40 @@
       </div>
 
       <aside class="projects-panel" id="projects-panel">
-        <p class="panel-label mono">now viewing</p>
+        <p class="panel-label mono">SYS://STATUS</p>
         <h4 class="panel-title" id="panel-title">—</h4>
         <p class="panel-status mono" id="panel-status"></p>
         <div class="panel-stack" id="panel-stack"></div>
       </aside>
+    </div>
+
+    <!-- MINI TERMINAL FOR PROJECTS -->
+    <div class="project-terminal-wrapper">
+      <h3 class="project-terminal-heading mono">Want the full story? Drag a file down here or type `ls`.</h3>
+      
+      <div class="terminal" id="project-terminal">
+        <div class="terminal-bar mono">ryan@projects: ~ (read project deep-dives)</div>
+        <div class="terminal-body" id="project-terminal-body">
+          <div class="terminal-output" id="project-terminal-output" aria-live="polite">
+            <div class="out-line out-muted">Type `ls` to see available project files.</div>
+          </div>
+          <label class="terminal-line mono">
+            <span class="terminal-prompt">ryan@projects:~$</span>
+            <input id="project-terminal-input" class="terminal-input mono" type="text" autocomplete="off" spellcheck="false" aria-label="Project terminal command input">
+          </label>
+        </div>
+      </div>
+
+      <div class="terminal-files">
+        <span class="terminal-files-label mono">drag or tap:</span>
+        <button class="file-chip mono" data-file="annsana.txt">annsana.txt</button>
+        <button class="file-chip mono" data-file="kenzim.txt">kenzim.txt</button>
+        <button class="file-chip mono" data-file="unitrack.txt">unitrack.txt</button>
+        <button class="file-chip mono" data-file="etl.txt">etl.txt</button>
+        <button class="file-chip mono" data-file="ai-security.txt">ai-security.txt</button>
+        <button class="file-chip mono" data-file="freelance.txt">freelance.txt</button>
+        <button class="file-chip mono" data-file="community.txt">community.txt</button>
+      </div>
     </div>
   </section>
 
@@ -189,70 +198,103 @@
   <section id="experience" class="section experience-section">
     <h2 class="experience-heading">Global Journey</h2>
 
+    <!-- ZIMBABWE -->
     <div id="exp-zimbabwe" class="exp-region">
-      <button class="return-pin mono" data-target="globe">◂ globe</button>
-      <div class="exp-grid">
-        <div class="exp-photo">
-          <img src="assets/images/zimbabwe.jpg" alt="Harare, Zimbabwe" onerror="this.style.display='none'">
+      <button class="return-pin mono" data-target="globe">◂ back to globe</button>
+      
+      <div class="photo-grid">
+        <div class="exp-photo"><img src="assets/images/zim1.jpg" alt="Harare" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/zim2.jpg" alt="St. George's" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/zim3.jpg" alt="Community" onerror="this.style.display='none'"></div>
+      </div>
+
+      <div class="exp-content">
+        <h3>Zimbabwe</h3>
+        <p class="exp-milestone-label mono">The Foundation</p>
+        
+        <div class="exp-subsection">
+          <h4 class="mono">// Social Life</h4>
+          <p class="exp-detail">Growing up in Harare gave me a deep appreciation for community. The city is vibrant, chaotic, and incredibly warm. It’s where I learned that no matter how hard things get, there is always time for a laugh with friends and a shared meal.</p>
         </div>
-        <div class="exp-content">
-          <h3>Zimbabwe</h3>
-          <p class="exp-milestone-label mono">community development</p>
-          <p class="exp-detail">St. George's College community service program, Harare — two weeks on-site at a local orphanage teaching computer literacy, followed by a fundraiser to help build new classrooms.</p>
+        <div class="exp-subsection">
+          <h4 class="mono">// Academic Life</h4>
+          <p class="exp-detail">I attended St. George's College. It was here that I first laid hands on a computer and realized the power of a command line. The academic pressure was intense, but it gave me the discipline I rely on today.</p>
+        </div>
+        <div class="exp-subsection">
+          <h4 class="mono">// Work & Service</h4>
+          <p class="exp-detail">Two weeks on-site at a local orphanage teaching computer literacy. It was humbling. I realized that tech isn't just about building complex architectures; it's about empowerment. I led a follow-up fundraiser that helped build new classrooms.</p>
         </div>
       </div>
     </div>
 
+    <!-- SOUTH AFRICA -->
     <div id="exp-south-africa" class="exp-region">
-      <button class="return-pin mono" data-target="globe">◂ globe</button>
-      <div class="exp-grid">
-        <div class="exp-photo">
-          <img src="assets/images/south-africa.jpg" alt="South Africa" onerror="this.style.display='none'">
-        </div>
-        <div class="exp-content">
-          <h3>South Africa</h3>
-          <p class="exp-detail exp-placeholder mono">// milestone details pending</p>
-        </div>
+      <button class="return-pin mono" data-target="globe">◂ back to globe</button>
+      <div class="photo-grid">
+        <div class="exp-photo"><img src="assets/images/sa1.jpg" alt="South Africa" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/sa2.jpg" alt="South Africa" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/sa3.jpg" alt="South Africa" onerror="this.style.display='none'"></div>
+      </div>
+      <div class="exp-content">
+        <h3>South Africa</h3>
+        <p class="exp-milestone-label mono">Transition</p>
+        <p class="exp-detail exp-placeholder mono">// milestone details pending (add your story here!)</p>
       </div>
     </div>
 
+    <!-- KENYA -->
     <div id="exp-kenya" class="exp-region">
-      <button class="return-pin mono" data-target="globe">◂ globe</button>
-      <div class="exp-grid">
-        <div class="exp-photo">
-          <img src="assets/images/kenya.jpg" alt="Kenya" onerror="this.style.display='none'">
-        </div>
-        <div class="exp-content">
-          <h3>Kenya</h3>
-          <p class="exp-detail exp-placeholder mono">// milestone details pending</p>
-        </div>
+      <button class="return-pin mono" data-target="globe">◂ back to globe</button>
+      <div class="photo-grid">
+        <div class="exp-photo"><img src="assets/images/ke1.jpg" alt="Kenya" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/ke2.jpg" alt="Kenya" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/ke3.jpg" alt="Kenya" onerror="this.style.display='none'"></div>
+      </div>
+      <div class="exp-content">
+        <h3>Kenya</h3>
+        <p class="exp-milestone-label mono">Growth</p>
+        <p class="exp-detail exp-placeholder mono">// milestone details pending (add your story here!)</p>
       </div>
     </div>
 
+    <!-- INDIA -->
     <div id="exp-india" class="exp-region">
-      <button class="return-pin mono" data-target="globe">◂ globe</button>
-      <div class="exp-grid">
-        <div class="exp-photo">
-          <img src="assets/images/india.jpg" alt="Punjab, India" onerror="this.style.display='none'">
-        </div>
-        <div class="exp-content">
-          <h3>India</h3>
-          <p class="exp-milestone-label mono">bachelor's degree</p>
-          <p class="exp-detail">Computer Science — Lovely Professional University, Punjab. Graduated September 2024.</p>
-        </div>
+      <button class="return-pin mono" data-target="globe">◂ back to globe</button>
+      <div class="photo-grid">
+        <div class="exp-photo"><img src="assets/images/in1.jpg" alt="Punjab" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/in2.jpg" alt="Punjab" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/in3.jpg" alt="Punjab" onerror="this.style.display='none'"></div>
+      </div>
+      <div class="exp-content">
+        <h3>India</h3>
+        <p class="exp-milestone-label mono">The Bachelor's Degree</p>
+        <p class="exp-detail">Computer Science — Lovely Professional University, Punjab. Graduated September 2024. Survived the intense curriculum, the heat, and the culture shock. This is where the backend foundations were truly laid.</p>
       </div>
     </div>
 
+    <!-- CHINA -->
     <div id="exp-china" class="exp-region">
-      <button class="return-pin mono" data-target="globe">◂ globe</button>
-      <div class="exp-grid">
-        <div class="exp-photo">
-          <img src="assets/images/china.jpg" alt="Hangzhou, China" onerror="this.style.display='none'">
+      <button class="return-pin mono" data-target="globe">◂ back to globe</button>
+      <div class="photo-grid">
+        <div class="exp-photo"><img src="assets/images/cn1.jpg" alt="Hangzhou" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/cn2.jpg" alt="Hangzhou" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/cn3.jpg" alt="Hangzhou" onerror="this.style.display='none'"></div>
+      </div>
+      <div class="exp-content">
+        <h3>China</h3>
+        <p class="exp-milestone-label mono">The Second Degree</p>
+        
+        <div class="exp-subsection">
+          <h4 class="mono">// Social Life</h4>
+          <p class="exp-detail">Moving to Hangzhou was a shock. Learning Mandarin while trying to order food, navigating a completely different social rhythm. But the people are welcoming, and I've found a great community of fellow international students and locals.</p>
         </div>
-        <div class="exp-content">
-          <h3>China</h3>
-          <p class="exp-milestone-label mono">second degree, in progress</p>
-          <p class="exp-detail">Computer Science &amp; Engineering — Zhejiang Agriculture and Forestry University, Hangzhou. Expected September 2028.</p>
+        <div class="exp-subsection">
+          <h4 class="mono">// Academic Life</h4>
+          <p class="exp-detail">Computer Science &amp; Engineering — Zhejiang Agriculture and Forestry University. Expected September 2028. The academic rigor here is different; it's highly structured. I'm currently navigating a whole new tech ecosystem and language.</p>
+        </div>
+        <div class="exp-subsection">
+          <h4 class="mono">// Work & Projects</h4>
+          <p class="exp-detail">Despite the heavy academic load, this is where I've built my most ambitious projects. Working remotely from my dorm in Hangzhou, I've been architecting full-stack platforms and diving deep into backend systems. The time zone difference means late nights, but the quiet focus of a 2 AM coding session here is unmatched.</p>
           <div class="exp-lang">
             <span class="exp-lang-tag mono">Mandarin — currently studying</span>
           </div>
@@ -261,7 +303,7 @@
     </div>
   </section>
 
-  <!-- TERMINAL CONTACT -->
+  <!-- CONTACT TERMINAL -->
   <section id="contact" class="section contact-section">
     <h2 class="contact-heading">Contact</h2>
     <p class="contact-sub mono">type a command, or drag a file onto the terminal</p>
@@ -272,9 +314,7 @@
         <div class="terminal-output" id="terminal-output" aria-live="polite"></div>
         <label class="terminal-line mono">
           <span class="terminal-prompt">ryan@portfolio:~$</span>
-          <input id="terminal-input" class="terminal-input mono" type="text"
-            autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
-            aria-label="Terminal command input">
+          <input id="terminal-input" class="terminal-input mono" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Terminal command input">
         </label>
       </div>
     </div>
@@ -287,9 +327,8 @@
     </div>
   </section>
 
-  <!-- UPDATED CDN LINKS -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
-  </html>
+                                 </html>
