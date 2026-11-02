@@ -6,7 +6,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   try {
-    runPreloader();
     initGlobe();
     initReturnPins();
     initProjects();
