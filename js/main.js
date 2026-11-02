@@ -6,7 +6,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   try {
-    initGlobe();
+    //initGlobe();
     initReturnPins();
     initProjects();
     initTerminal();
