@@ -15,6 +15,10 @@ as a static site on GitHub Pages.
 - **GSAP-driven transitions** — preloader sequence, entrance animations,
   and camera movement, all triggered by clicks, taps, or scroll position
   (no hover-dependent interactions)
+- **Terminal-style contact** — a command-line interface (`help`, `ls`, `cat`,
+  `contact`, `status`, history and tab-completion) with draggable file chips
+  that run commands when dropped on the terminal; tap and keyboard fallbacks
+  included
 - **Fully responsive** — desktop, tablet, and mobile, with touch-friendly
   fallbacks for the 3D elements
 
@@ -76,11 +80,6 @@ Deployed via GitHub Pages:
 | Headings          | Space Grotesk      |
 | Body              | Inter               |
 | Code / technical  | JetBrains Mono     |
-
-## Roadmap
-
-- [ ] Academic & global experience grid
-- [ ] Terminal-style contact section
 
 ## License
 
