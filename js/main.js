@@ -265,7 +265,7 @@ function setActiveProject(card) {
 const CONTACT = {
   email: 'konyangoryan@gmail.com',
   github: 'https://github.com/Sadsamon',
-  linkedin: 'https://www.linkedin.com'
+  linkedin: 'https://linkedin.com/in/ryankonyango'
 };
 
 function initTerminal() {
