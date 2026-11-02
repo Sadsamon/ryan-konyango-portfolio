@@ -1,27 +1,26 @@
 // Portfolio — main.js
-// Phase 2: preloader sequence + hero entrance.
-// Phase 3: Three.js globe, pin click → section jump, return-pin logic.
-// Phase 4: scroll-triggered project reveals + sticky metadata panel.
-// Phase 6: terminal contact — command parser, history, draggable file chips.
+// Fixed: Added fallbacks for CDN failures, WebGL errors, and missing dimensions.
 
 document.addEventListener('DOMContentLoaded', () => {
-  try {
-    //initGlobe();
-    initReturnPins();
-    initProjects();
-    initTerminal();
-  } catch (err) {
-    console.error(err);
-
-    const preloader = document.getElementById("preloader");
-    if (preloader) preloader.style.display = "none";
-
-    alert(err.message);
-  }
+  runPreloader();
+  initGlobe();
+  initReturnPins();
+  initProjects();
+  initTerminal();
 });
+
 function runPreloader() {
   const preloader = document.getElementById('preloader');
   const countEl = document.getElementById('preloader-count');
+  
+  if (!preloader || !countEl) return;
+
+  // Fallback: If GSAP fails to load, instantly hide the preloader
+  if (typeof gsap === 'undefined') {
+    preloader.style.display = 'none';
+    return;
+  }
+
   const counter = { value: 0 };
 
   const tl = gsap.timeline({
@@ -45,6 +44,9 @@ function runPreloader() {
 }
 
 function animateHeroIn() {
+  // Fallback: If GSAP is missing, don't animate (elements are visible by default)
+  if (typeof gsap === 'undefined') return;
+
   const tl = gsap.timeline();
 
   tl.from('.hero-type', { autoAlpha: 0, x: -40, duration: 0.7, ease: 'power2.out' })
@@ -73,56 +75,65 @@ function initGlobe() {
   const canvas = document.getElementById('globe-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
 
-  const stage = canvas.parentElement;
-  const rect = stage.getBoundingClientRect();
+  try {
+    const stage = canvas.parentElement;
+    const rect = stage.getBoundingClientRect();
+    
+    // Fallback for missing dimensions on mobile
+    const width = rect.width || 300;
+    const height = rect.height || 300;
 
-  scene = new THREE.Scene();
+    scene = new THREE.Scene();
 
-  camera = new THREE.PerspectiveCamera(45, rect.width / rect.height, 0.1, 100);
-  camera.position.set(0, 0, 6);
-  defaultCameraPos = camera.position.clone();
+    camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+    camera.position.set(0, 0, 6);
+    defaultCameraPos = camera.position.clone();
 
-  renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(rect.width, rect.height);
+    renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(width, height);
 
-  globeGroup = new THREE.Group();
-  scene.add(globeGroup);
+    globeGroup = new THREE.Group();
+    scene.add(globeGroup);
 
-  const base = new THREE.Mesh(
-    new THREE.SphereGeometry(2, 24, 24),
-    new THREE.MeshBasicMaterial({ color: 0x2b2118, transparent: true, opacity: 0.9 })
-  );
-  globeGroup.add(base);
-
-  const wire = new THREE.Mesh(
-    new THREE.SphereGeometry(2.01, 24, 16),
-    new THREE.MeshBasicMaterial({ color: 0x8c8177, wireframe: true, transparent: true, opacity: 0.35 })
-  );
-  globeGroup.add(wire);
-
-  REGIONS.forEach(region => {
-    const pos = latLonToVector3(region.lat, region.lon, 2.05);
-    const pin = new THREE.Mesh(
-      new THREE.SphereGeometry(0.06, 12, 12),
-      new THREE.MeshBasicMaterial({ color: 0xe67e22 })
+    const base = new THREE.Mesh(
+      new THREE.SphereGeometry(2, 24, 24),
+      new THREE.MeshBasicMaterial({ color: 0x2b2118, transparent: true, opacity: 0.9 })
     );
-    pin.position.copy(pos);
-    pin.userData = { region: region.id };
-    globeGroup.add(pin);
-    pins.push(pin);
-  });
+    globeGroup.add(base);
 
-  raycaster = new THREE.Raycaster();
-  mouse = new THREE.Vector2();
+    const wire = new THREE.Mesh(
+      new THREE.SphereGeometry(2.01, 24, 16),
+      new THREE.MeshBasicMaterial({ color: 0x8c8177, wireframe: true, transparent: true, opacity: 0.35 })
+    );
+    globeGroup.add(wire);
 
-  canvas.addEventListener('click', onGlobeClick);
-  document.querySelectorAll('.pin-btn').forEach(btn => {
-    btn.addEventListener('click', () => goToRegion(btn.dataset.region));
-  });
+    REGIONS.forEach(region => {
+      const pos = latLonToVector3(region.lat, region.lon, 2.05);
+      const pin = new THREE.Mesh(
+        new THREE.SphereGeometry(0.06, 12, 12),
+        new THREE.MeshBasicMaterial({ color: 0xe67e22 })
+      );
+      pin.position.copy(pos);
+      pin.userData = { region: region.id };
+      globeGroup.add(pin);
+      pins.push(pin);
+    });
 
-  window.addEventListener('resize', onGlobeResize);
-  animateGlobe();
+    raycaster = new THREE.Raycaster();
+    mouse = new THREE.Vector2();
+
+    canvas.addEventListener('click', onGlobeClick);
+    document.querySelectorAll('.pin-btn').forEach(btn => {
+      btn.addEventListener('click', () => goToRegion(btn.dataset.region));
+    });
+
+    window.addEventListener('resize', onGlobeResize);
+    animateGlobe();
+  } catch (error) {
+    console.error("WebGL failed to initialize. Hiding canvas.", error);
+    canvas.style.display = 'none';
+  }
 }
 
 function latLonToVector3(lat, lon, radius) {
@@ -139,9 +150,12 @@ function onGlobeResize() {
   const canvas = document.getElementById('globe-canvas');
   if (!canvas || !renderer) return;
   const rect = canvas.parentElement.getBoundingClientRect();
-  camera.aspect = rect.width / rect.height;
+  const width = rect.width || 300;
+  const height = rect.height || 300;
+  
+  camera.aspect = width / height;
   camera.updateProjectionMatrix();
-  renderer.setSize(rect.width, rect.height);
+  renderer.setSize(width, height);
 }
 
 function onGlobeClick(event) {
@@ -166,16 +180,24 @@ function goToRegion(regionId) {
   const pinPos = latLonToVector3(region.lat, region.lon, 2.05);
   const zoomTarget = pinPos.clone().normalize().multiplyScalar(3.4);
 
-  gsap.to(camera.position, {
-    x: zoomTarget.x, y: zoomTarget.y, z: zoomTarget.z,
-    duration: 1.1,
-    ease: 'power2.inOut',
-    onUpdate: () => camera.lookAt(0, 0, 0),
-    onComplete: () => {
-      const target = document.getElementById('exp-' + regionId);
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
+  if (typeof gsap !== 'undefined') {
+    gsap.to(camera.position, {
+      x: zoomTarget.x, y: zoomTarget.y, z: zoomTarget.z,
+      duration: 1.1,
+      ease: 'power2.inOut',
+      onUpdate: () => camera.lookAt(0, 0, 0),
+      onComplete: () => {
+        const target = document.getElementById('exp-' + regionId);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  } else {
+    // Fallback if GSAP fails
+    camera.position.set(zoomTarget.x, zoomTarget.y, zoomTarget.z);
+    camera.lookAt(0, 0, 0);
+    const target = document.getElementById('exp-' + regionId);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 function initReturnPins() {
@@ -185,13 +207,19 @@ function initReturnPins() {
       if (globeSection) globeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
       if (camera && defaultCameraPos) {
-        gsap.to(camera.position, {
-          x: defaultCameraPos.x, y: defaultCameraPos.y, z: defaultCameraPos.z,
-          duration: 1,
-          ease: 'power2.inOut',
-          onUpdate: () => camera.lookAt(0, 0, 0),
-          onComplete: () => { idleRotation = true; }
-        });
+        if (typeof gsap !== 'undefined') {
+          gsap.to(camera.position, {
+            x: defaultCameraPos.x, y: defaultCameraPos.y, z: defaultCameraPos.z,
+            duration: 1,
+            ease: 'power2.inOut',
+            onUpdate: () => camera.lookAt(0, 0, 0),
+            onComplete: () => { idleRotation = true; }
+          });
+        } else {
+          camera.position.set(defaultCameraPos.x, defaultCameraPos.y, defaultCameraPos.z);
+          camera.lookAt(0, 0, 0);
+          idleRotation = true;
+        }
       }
       document.querySelectorAll('.pin-btn').forEach(b => b.removeAttribute('aria-current'));
     });
@@ -201,7 +229,7 @@ function initReturnPins() {
 function animateGlobe() {
   requestAnimationFrame(animateGlobe);
   if (idleRotation && globeGroup) globeGroup.rotation.y += 0.0018;
-  renderer.render(scene, camera);
+  if (renderer && scene && camera) renderer.render(scene, camera);
 }
 
 // ==========================================================================
@@ -234,6 +262,7 @@ function initProjects() {
 
 function revealProjectCard(card) {
   const inner = card.querySelector('.project-reveal');
+  if (!inner || typeof gsap === 'undefined') return;
 
   gsap.fromTo(card,
     { clipPath: 'inset(0 100% 0 0)' },
@@ -269,10 +298,11 @@ function setActiveProject(card) {
 // PHASE 6 — TERMINAL CONTACT
 // ==========================================================================
 
+// ⚠️ MAKE SURE TO REPLACE THESE WITH YOUR REAL DETAILS ⚠️
 const CONTACT = {
-  email: 'konyangoryan@gmail.com',
-  github: 'https://github.com/Sadsamon',
-  linkedin: 'https://linkedin.com/in/ryankonyango'
+  email:    'your.email@example.com',
+  github:   'https://github.com/Sadsamon',
+  linkedin: 'https://www.linkedin.com/in/your-username'
 };
 
 function initTerminal() {
@@ -286,7 +316,6 @@ function initTerminal() {
   const history = [];
   let historyIndex = 0;
 
-  // ---- output helpers (textContent only; never innerHTML) ----
   function line(text, cls) {
     const el = document.createElement('div');
     el.className = 'out-line' + (cls ? ' ' + cls : '');
@@ -320,7 +349,6 @@ function initTerminal() {
     body.scrollTop = body.scrollHeight;
   }
 
-  // ---- virtual files + commands ----
   const FILES = {
     'about.txt':   () => [
       line('I build backend systems and full-stack platforms — from cultural archives to predictive pipelines — across Africa and Asia.'),
@@ -390,7 +418,6 @@ function initTerminal() {
     }
   }
 
-  // ---- keyboard: enter, history, tab-complete ----
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       run(input.value);
@@ -422,7 +449,6 @@ function initTerminal() {
     if (!window.getSelection().toString()) input.focus({ preventScroll: true });
   });
 
-  // ---- draggable file chips (tap or keyboard also works) ----
   const overTerminal = (ev) => {
     const r = term.getBoundingClientRect();
     return ev.clientX >= r.left && ev.clientX <= r.right &&
@@ -477,11 +503,10 @@ function initTerminal() {
       chip.addEventListener('pointercancel', onCancel);
     });
 
-    // Keyboard activation (Enter/Space) arrives as a click with detail 0
     chip.addEventListener('click', (e) => {
       if (e.detail === 0) run('cat ' + chip.dataset.file);
     });
   });
 
   print(line('Type `help` for commands, or drag a file onto this window.', 'out-muted'));
-}
+      }
