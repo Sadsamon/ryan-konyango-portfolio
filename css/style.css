@@ -209,6 +209,7 @@ a {
   max-width: 560px;
   aspect-ratio: 1 / 1;
   margin: 0 auto;
+  min-height: 300px; /* Prevents mobile rendering crash */
 }
 
 #globe-canvas {
@@ -601,4 +602,4 @@ a {
   color: var(--accent-orange);
   text-decoration: underline;
   text-underline-offset: 3px;
-}
+     }
