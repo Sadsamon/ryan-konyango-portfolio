@@ -5,13 +5,21 @@
 // Phase 6: terminal contact — command parser, history, draggable file chips.
 
 document.addEventListener('DOMContentLoaded', () => {
-  runPreloader();
-  initGlobe();
-  initReturnPins();
-  initProjects();
-  initTerminal();
-});
+  try {
+    runPreloader();
+    initGlobe();
+    initReturnPins();
+    initProjects();
+    initTerminal();
+  } catch (err) {
+    console.error(err);
 
+    const preloader = document.getElementById("preloader");
+    if (preloader) preloader.style.display = "none";
+
+    alert(err.message);
+  }
+});
 function runPreloader() {
   const preloader = document.getElementById('preloader');
   const countEl = document.getElementById('preloader-count');
