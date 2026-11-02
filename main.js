@@ -2,14 +2,14 @@
 // Phase 2: preloader sequence + hero entrance.
 // Phase 3: Three.js globe, pin click → section jump, return-pin logic.
 // Phase 4: scroll-triggered project reveals + sticky metadata panel.
-// Still to come:
-//   Phase 6 — terminal command parser
+// Phase 6: terminal contact — command parser, history, draggable file chips.
 
 document.addEventListener('DOMContentLoaded', () => {
   runPreloader();
   initGlobe();
   initReturnPins();
   initProjects();
+  initTerminal();
 });
 
 function runPreloader() {
@@ -255,4 +255,227 @@ function setActiveProject(card) {
     span.textContent = item;
     stackEl.appendChild(span);
   });
+}
+
+
+// ==========================================================================
+// PHASE 6 — TERMINAL CONTACT
+// ==========================================================================
+
+// Replace these with real contact details before deploying.
+const CONTACT = {
+  email:    'your.email@example.com',
+  github:   'https://github.com/Sadsamon',
+  linkedin: 'https://www.linkedin.com/in/your-username'
+};
+
+function initTerminal() {
+  const term = document.getElementById('terminal');
+  const body = document.getElementById('terminal-body');
+  const out = document.getElementById('terminal-output');
+  const input = document.getElementById('terminal-input');
+  if (!term || !body || !out || !input) return;
+
+  const has = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
+  const history = [];
+  let historyIndex = 0;
+
+  // ---- output helpers (textContent only; never innerHTML) ----
+  function line(text, cls) {
+    const el = document.createElement('div');
+    el.className = 'out-line' + (cls ? ' ' + cls : '');
+    el.textContent = text;
+    return el;
+  }
+
+  function linkEl(label, href) {
+    const a = document.createElement('a');
+    a.textContent = label;
+    a.href = href;
+    if (!href.startsWith('mailto:')) {
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+    }
+    return a;
+  }
+
+  function labelled(label, label2, href) {
+    const el = document.createElement('div');
+    el.className = 'out-line';
+    const k = document.createElement('span');
+    k.className = 'out-muted';
+    k.textContent = label.padEnd(10);
+    el.append(k, linkEl(label2, href));
+    return el;
+  }
+
+  function print(...els) {
+    els.forEach(el => out.appendChild(el));
+    body.scrollTop = body.scrollHeight;
+  }
+
+  // ---- virtual files + commands ----
+  const FILES = {
+    'about.txt':   () => [
+      line('I build backend systems and full-stack platforms — from cultural archives to predictive pipelines — across Africa and Asia.'),
+      line('I also take on freelance web and app design work.')
+    ],
+    'email.txt':   () => [labelled('email', CONTACT.email, 'mailto:' + CONTACT.email)],
+    'socials.txt': () => [
+      labelled('github', CONTACT.github, CONTACT.github),
+      labelled('linkedin', CONTACT.linkedin, CONTACT.linkedin)
+    ]
+  };
+
+  const COMMANDS = {
+    help: () => [
+      line('available commands:'),
+      line('  help       list commands'),
+      line('  ls         list files'),
+      line('  cat <file> read a file'),
+      line('  whoami     who am i'),
+      line('  contact    email + socials'),
+      line('  email      show email'),
+      line('  socials    show profile links'),
+      line('  projects   list projects'),
+      line('  status     availability'),
+      line('  clear      clear the terminal')
+    ],
+    ls: () => [line(Object.keys(FILES).join('  '))],
+    cat: (args) => {
+      if (!args[0]) return [line('cat: missing file operand', 'out-err')];
+      if (!has(FILES, args[0])) return [line('cat: ' + args[0] + ': No such file or directory', 'out-err')];
+      return FILES[args[0]]();
+    },
+    whoami:  () => [line('ryan — software developer / engineer, freelance web and app designer')],
+    status:  () => [line('open to all forms of employment'), line('available for freelance web and app design')],
+    contact: () => [...FILES['email.txt'](), ...FILES['socials.txt']()],
+    email:   () => FILES['email.txt'](),
+    socials: () => FILES['socials.txt'](),
+    projects: () => Array.from(document.querySelectorAll('.project-card')).map((card, i) =>
+      line(String(i + 1).padStart(2, '0') + '  ' + (card.dataset.title || ''))
+    )
+  };
+
+  function run(raw) {
+    const cmd = raw.trim();
+    if (!cmd) return;
+
+    const echo = document.createElement('div');
+    echo.className = 'out-line';
+    const prompt = document.createElement('span');
+    prompt.className = 'terminal-prompt';
+    prompt.textContent = 'ryan@portfolio:~$ ';
+    echo.append(prompt, document.createTextNode(cmd));
+    print(echo);
+
+    history.push(cmd);
+    historyIndex = history.length;
+
+    const [name, ...args] = cmd.split(/\s+/);
+    if (name === 'clear') {
+      out.replaceChildren();
+      return;
+    }
+    if (has(COMMANDS, name)) {
+      print(...COMMANDS[name](args));
+    } else {
+      print(line('bash: ' + name + ': command not found', 'out-err'));
+    }
+  }
+
+  // ---- keyboard: enter, history, tab-complete ----
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      run(input.value);
+      input.value = '';
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (historyIndex > 0) input.value = history[--historyIndex];
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex < history.length - 1) {
+        input.value = history[++historyIndex];
+      } else {
+        historyIndex = history.length;
+        input.value = '';
+      }
+    } else if (e.key === 'Tab' && input.value.trim()) {
+      const parts = input.value.split(/\s+/);
+      const pool = parts.length === 1 ? Object.keys(COMMANDS) : Object.keys(FILES);
+      const matches = pool.filter(k => k.startsWith(parts[parts.length - 1]));
+      if (matches.length === 1) {
+        e.preventDefault();
+        parts[parts.length - 1] = matches[0];
+        input.value = parts.join(' ');
+      }
+    }
+  });
+
+  body.addEventListener('click', () => {
+    if (!window.getSelection().toString()) input.focus({ preventScroll: true });
+  });
+
+  // ---- draggable file chips (tap or keyboard also works) ----
+  const overTerminal = (ev) => {
+    const r = term.getBoundingClientRect();
+    return ev.clientX >= r.left && ev.clientX <= r.right &&
+           ev.clientY >= r.top && ev.clientY <= r.bottom;
+  };
+
+  document.querySelectorAll('.file-chip').forEach(chip => {
+    chip.addEventListener('pointerdown', (e) => {
+      if (e.button > 0) return;
+      const startX = e.clientX, startY = e.clientY;
+      const rect = chip.getBoundingClientRect();
+      const offX = startX - rect.left, offY = startY - rect.top;
+      let ghost = null, moved = false;
+      chip.setPointerCapture(e.pointerId);
+
+      const cleanup = () => {
+        chip.removeEventListener('pointermove', onMove);
+        chip.removeEventListener('pointerup', onUp);
+        chip.removeEventListener('pointercancel', onCancel);
+        if (ghost) ghost.remove();
+        chip.classList.remove('is-source');
+        term.classList.remove('drop-ready');
+      };
+
+      const onMove = (ev) => {
+        if (!moved && Math.hypot(ev.clientX - startX, ev.clientY - startY) > 6) {
+          moved = true;
+          ghost = chip.cloneNode(true);
+          ghost.classList.add('dragging');
+          ghost.setAttribute('aria-hidden', 'true');
+          ghost.style.width = rect.width + 'px';
+          document.body.appendChild(ghost);
+          chip.classList.add('is-source');
+        }
+        if (moved) {
+          ghost.style.left = (ev.clientX - offX) + 'px';
+          ghost.style.top = (ev.clientY - offY) + 'px';
+          term.classList.toggle('drop-ready', overTerminal(ev));
+        }
+      };
+
+      const onUp = (ev) => {
+        const drop = !moved || overTerminal(ev);
+        cleanup();
+        if (drop) run('cat ' + chip.dataset.file);
+      };
+
+      const onCancel = () => cleanup();
+
+      chip.addEventListener('pointermove', onMove);
+      chip.addEventListener('pointerup', onUp);
+      chip.addEventListener('pointercancel', onCancel);
+    });
+
+    // Keyboard activation (Enter/Space) arrives as a click with detail 0
+    chip.addEventListener('click', (e) => {
+      if (e.detail === 0) run('cat ' + chip.dataset.file);
+    });
+  });
+
+  print(line('Type `help` for commands, or drag a file onto this window.', 'out-muted'));
 }
