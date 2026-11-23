@@ -1,11 +1,11 @@
 // Portfolio — main.js
 document.addEventListener('DOMContentLoaded', () => {
-  runPreloader();
-  initGlobe();
-  initReturnPins();
-  initProjects();
-  initProjectTerminal();
-  initTerminal();
+  [
+    runPreloader, initGlobe, initReturnPins, initProjects,
+    initProjectTerminal, initTerminal, initContactButtons, initSafetyNet
+  ].forEach((init) => {
+    try { init(); } catch (err) { console.error(init.name + ' failed:', err); }
+  });
 });
 
 function runPreloader() {
@@ -41,7 +41,7 @@ function animateHeroIn() {
 }
 
 // ==========================================================================
-// PHASE 3 — 3D GLOBE
+// 3D GLOBE
 // ==========================================================================
 const REGIONS = [
   { id: 'zimbabwe',     label: 'Zimbabwe',     lat: -17.83, lon: 31.05 },
@@ -57,8 +57,16 @@ let raycaster, mouse;
 let idleRotation = true;
 
 function initGlobe() {
+  document.querySelectorAll('.pin-btn').forEach(btn => {
+    btn.addEventListener('click', () => goToRegion(btn.dataset.region));
+  });
+
   const canvas = document.getElementById('globe-canvas');
-  if (!canvas || typeof THREE === 'undefined') return;
+  if (!canvas) return;
+  if (typeof THREE === 'undefined') {
+    canvas.parentElement.style.display = 'none';
+    return;
+  }
 
   try {
     const stage = canvas.parentElement;
@@ -97,14 +105,11 @@ function initGlobe() {
     mouse = new THREE.Vector2();
 
     canvas.addEventListener('click', onGlobeClick);
-    document.querySelectorAll('.pin-btn').forEach(btn => {
-      btn.addEventListener('click', () => goToRegion(btn.dataset.region));
-    });
     window.addEventListener('resize', onGlobeResize);
     animateGlobe();
   } catch (error) {
-    console.error("WebGL failed.", error);
-    canvas.style.display = 'none';
+    console.error('WebGL failed.', error);
+    canvas.parentElement.style.display = 'none';
   }
 }
 
@@ -136,11 +141,17 @@ function onGlobeClick(event) {
 
 function goToRegion(regionId) {
   const region = REGIONS.find(r => r.id === regionId);
-  if (!region || !camera) return;
+  if (!region) return;
 
   document.querySelectorAll('.pin-btn').forEach(btn => {
     btn.setAttribute('aria-current', btn.dataset.region === regionId ? 'true' : 'false');
   });
+
+  if (!camera) {
+    const fallbackTarget = document.getElementById('exp-' + regionId);
+    if (fallbackTarget) fallbackTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
 
   idleRotation = false;
   const pinPos = latLonToVector3(region.lat, region.lon, 2.05);
@@ -189,7 +200,7 @@ function animateGlobe() {
 }
 
 // ==========================================================================
-// PHASE 4 — PROJECTS: Scroll Reveal & HUD
+// PROJECTS: scroll reveal & HUD
 // ==========================================================================
 function initProjects() {
   const cards = document.querySelectorAll('.project-card');
@@ -241,7 +252,74 @@ function setActiveProject(card) {
 }
 
 // ==========================================================================
-// PHASE 5 — PROJECT MINI-TERMINAL
+// SHARED TERMINAL HELPERS
+// ==========================================================================
+
+// Draggable file chips: drop on the terminal to run, or tap / press Enter.
+function enableFileChips(chips, term, runFile) {
+  const overTerminal = (ev) => {
+    const r = term.getBoundingClientRect();
+    return ev.clientX >= r.left && ev.clientX <= r.right &&
+           ev.clientY >= r.top && ev.clientY <= r.bottom;
+  };
+
+  chips.forEach(chip => {
+    chip.addEventListener('pointerdown', (e) => {
+      if (e.button > 0) return;
+      const startX = e.clientX, startY = e.clientY;
+      const rect = chip.getBoundingClientRect();
+      const offX = startX - rect.left, offY = startY - rect.top;
+      let ghost = null, moved = false;
+      chip.setPointerCapture(e.pointerId);
+
+      const cleanup = () => {
+        chip.removeEventListener('pointermove', onMove);
+        chip.removeEventListener('pointerup', onUp);
+        chip.removeEventListener('pointercancel', onCancel);
+        if (ghost) ghost.remove();
+        chip.classList.remove('is-source');
+        term.classList.remove('drop-ready');
+      };
+
+      const onMove = (ev) => {
+        if (!moved && Math.hypot(ev.clientX - startX, ev.clientY - startY) > 6) {
+          moved = true;
+          ghost = chip.cloneNode(true);
+          ghost.classList.add('dragging');
+          ghost.setAttribute('aria-hidden', 'true');
+          ghost.style.width = rect.width + 'px';
+          document.body.appendChild(ghost);
+          chip.classList.add('is-source');
+        }
+        if (moved) {
+          ghost.style.left = (ev.clientX - offX) + 'px';
+          ghost.style.top = (ev.clientY - offY) + 'px';
+          term.classList.toggle('drop-ready', overTerminal(ev));
+        }
+      };
+
+      const onUp = (ev) => {
+        const drop = !moved || overTerminal(ev);
+        cleanup();
+        if (drop) runFile(chip.dataset.file);
+      };
+
+      const onCancel = () => cleanup();
+
+      chip.addEventListener('pointermove', onMove);
+      chip.addEventListener('pointerup', onUp);
+      chip.addEventListener('pointercancel', onCancel);
+    });
+
+    // Keyboard activation (Enter/Space) arrives as a click with detail 0
+    chip.addEventListener('click', (e) => {
+      if (e.detail === 0) runFile(chip.dataset.file);
+    });
+  });
+}
+
+// ==========================================================================
+// PROJECT TERMINAL
 // ==========================================================================
 function initProjectTerminal() {
   const term = document.getElementById('project-terminal');
@@ -249,6 +327,22 @@ function initProjectTerminal() {
   const out = document.getElementById('project-terminal-output');
   const input = document.getElementById('project-terminal-input');
   if (!term || !body || !out || !input) return;
+
+  const has = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
+  const history = [];
+  let historyIndex = 0;
+
+  function line(text, cls) {
+    const el = document.createElement('div');
+    el.className = 'out-line' + (cls ? ' ' + cls : '');
+    el.textContent = text;
+    return el;
+  }
+
+  function print(...els) {
+    els.forEach(el => out.appendChild(el));
+    body.scrollTop = body.scrollHeight;
+  }
 
   const PROJECT_FILES = {
     'annsana.txt': () => [
@@ -260,8 +354,8 @@ function initProjectTerminal() {
     'kenzim.txt': () => [
       line('--- KENZIM (Cross-Border Community & Social Media Platform) ---'),
       line('Inspiration: Born from my role bridging communities between Zimbabwe and Kenya, I needed a centralized space to manage joint initiatives, coordinate leadership efforts, and archive public events effectively.'),
-      line('Tools: React, Node.js, Express, MongoDB, and Firebase Cloud Messaging.'),
-      line('Experience: This project was all about communication and real-time state synchronization. Building automated notification engines and event-driven architecture showed me how software can actively strengthen international community ties.')
+      line('Tools: React, Tailwind CSS, Supabase (Auth + Postgres), Leaflet with OpenStreetMap, and Vercel, shipped as an installable PWA.'),
+      line('Experience: Kenzim taught me to design around real constraints: role-based access for a multi-tier leadership structure, an admin review flow for new members, and an offline-capable app that runs entirely on free-tier infrastructure.')
     ],
     'unitrack.txt': () => [
       line('--- UNITRACK (Smart Notification & Attendance Engine) ---'),
@@ -295,67 +389,86 @@ function initProjectTerminal() {
     ]
   };
 
-  function line(text, cls) {
-    const el = document.createElement('div');
-    el.className = 'out-line' + (cls ? ' ' + cls : '');
-    el.textContent = text;
-    return el;
-  }
-
-  function print(...els) {
-    els.forEach(el => out.appendChild(el));
-    body.scrollTop = body.scrollHeight;
-  }
+  const COMMAND_NAMES = ['help', 'ls', 'cat', 'clear'];
 
   function run(raw) {
     const cmd = raw.trim();
     if (!cmd) return;
-    
+
     const echo = document.createElement('div');
     echo.className = 'out-line';
-    echo.append(document.createTextNode('ryan@projects:~$ ' + cmd));
+    const prompt = document.createElement('span');
+    prompt.className = 'terminal-prompt';
+    prompt.textContent = 'ryan@projects:~$ ';
+    echo.append(prompt, document.createTextNode(cmd));
     print(echo);
 
-    const [name, args] = cmd.split(' ');
-    if (name === 'ls') {
+    history.push(cmd);
+    historyIndex = history.length;
+
+    const [name, ...args] = cmd.split(/\s+/);
+    if (name === 'clear') {
+      out.replaceChildren();
+    } else if (name === 'help') {
+      print(line('available commands: ls, cat <file>, clear, help'));
+    } else if (name === 'ls') {
       print(line(Object.keys(PROJECT_FILES).join('  ')));
     } else if (name === 'cat') {
-      if (PROJECT_FILES[args]) {
-        print(...PROJECT_FILES[args]());
+      if (!args[0]) {
+        print(line('cat: missing file operand', 'out-err'));
+      } else if (!has(PROJECT_FILES, args[0])) {
+        print(line('cat: ' + args[0] + ': No such file. Try `ls`', 'out-err'));
       } else {
-        print(line('cat: ' + args + ': File not found. Try `ls`', 'out-err'));
+        print(...PROJECT_FILES[args[0]]());
       }
-    } else if (name === 'clear') {
-      out.replaceChildren();
     } else {
-      print(line('command not found. Try `ls` or `cat <file>`', 'out-err'));
+      print(line('bash: ' + name + ': command not found. Try `ls` or `cat <file>`', 'out-err'));
     }
   }
 
   input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') { run(input.value); input.value = ''; }
+    if (e.key === 'Enter') {
+      run(input.value);
+      input.value = '';
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (historyIndex > 0) input.value = history[--historyIndex];
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex < history.length - 1) {
+        input.value = history[++historyIndex];
+      } else {
+        historyIndex = history.length;
+        input.value = '';
+      }
+    } else if (e.key === 'Tab' && input.value.trim()) {
+      const parts = input.value.split(/\s+/);
+      const pool = parts.length === 1 ? COMMAND_NAMES : Object.keys(PROJECT_FILES);
+      const matches = pool.filter(k => k.startsWith(parts[parts.length - 1]));
+      if (matches.length === 1) {
+        e.preventDefault();
+        parts[parts.length - 1] = matches[0];
+        input.value = parts.join(' ');
+      }
+    }
   });
 
-  // Map the drag chips to the run command
-  document.querySelectorAll('#projects .file-chip').forEach(chip => {
-    chip.addEventListener('click', () => run('cat ' + chip.dataset.file));
-    chip.addEventListener('pointerdown', (e) => {
-      // Simplified drag: just click to activate for now to save code length, 
-      // you can paste the complex drag logic here if desired.
-      run('cat ' + chip.dataset.file);
-    });
+  body.addEventListener('click', () => {
+    if (!window.getSelection().toString()) input.focus({ preventScroll: true });
   });
+
+  enableFileChips(document.querySelectorAll('#projects .file-chip'), term, (file) => run('cat ' + file));
 }
 
 // ==========================================================================
-// PHASE 6 — CONTACT TERMINAL
+// CONTACT TERMINAL
 // ==========================================================================
 const CONTACT = {
-  email:    'konyangoryan@gmail.com',
-  github:   'https://github.com/Sadsamon',
-  linkedin: 'https://Linkedin.com/in/ryankonyango',
-  instagram: 'https://instagram.com/your_instagram', // UPDATE THIS
-  whatsapp:  'https://wa.me/your_phone_number'      // UPDATE THIS
+  email:     'konyangoryan@gmail.com',
+  github:    'https://github.com/Sadsamon',
+  linkedin:  'https://www.linkedin.com/in/ryan-konyango-431800232',
+  instagram: 'https://www.instagram.com/tech_no_talk',
+  phone:     '+8618657168171'
 };
 
 function initTerminal() {
@@ -380,7 +493,7 @@ function initTerminal() {
     const a = document.createElement('a');
     a.textContent = label;
     a.href = href;
-    if (!href.startsWith('mailto:')) {
+    if (!href.startsWith('mailto:') && !href.startsWith('tel:')) {
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
     }
@@ -403,17 +516,17 @@ function initTerminal() {
   }
 
   const FILES = {
-    'about.txt':   () => [
+    'about.txt': () => [
       line('I am Ryan Kevin Omondi Konyango (瑞安) — Backend Engineer & System Architect.'),
       line('Building resilient APIs, asynchronous pipelines, and scalable digital experiences across borders.'),
       line('Originally from Zimbabwe, I specialize in distributed systems, Python/Django, and data flows. Currently studying in Hangzhou, China.')
     ],
-    'email.txt':   () => [labelled('email', CONTACT.email, 'mailto:' + CONTACT.email)],
+    'email.txt': () => [labelled('email', CONTACT.email, 'mailto:' + CONTACT.email)],
+    'phone.txt': () => [labelled('phone', CONTACT.phone, 'tel:' + CONTACT.phone)],
     'socials.txt': () => [
       labelled('github', 'Sadsamon', CONTACT.github),
-      labelled('linkedin', 'ryankonyango', CONTACT.linkedin),
-      labelled('instagram', 'Instagram', CONTACT.instagram),
-      labelled('whatsapp', 'WhatsApp', CONTACT.whatsapp)
+      labelled('linkedin', 'ryan-konyango', CONTACT.linkedin),
+      labelled('instagram', '@tech_no_talk', CONTACT.instagram)
     ]
   };
 
@@ -424,7 +537,10 @@ function initTerminal() {
       line('  ls         list files'),
       line('  cat <file> read a file'),
       line('  whoami     who am i'),
-      line('  contact    email + socials'),
+      line('  contact    email, phone + socials'),
+      line('  email      show email'),
+      line('  phone      show phone number'),
+      line('  socials    show profile links'),
       line('  projects   list projects'),
       line('  status     availability'),
       line('  clear      clear the terminal')
@@ -437,8 +553,9 @@ function initTerminal() {
     },
     whoami:  () => [line('Ryan — Backend Engineer & System Architect.')],
     status:  () => [line('open to all forms of employment'), line('available for freelance web and app design')],
-    contact: () => [...FILES['email.txt'](), ...FILES['socials.txt']()],
+    contact: () => [...FILES['email.txt'](), ...FILES['phone.txt'](), ...FILES['socials.txt']()],
     email:   () => FILES['email.txt'](),
+    phone:   () => FILES['phone.txt'](),
     socials: () => FILES['socials.txt'](),
     projects: () => Array.from(document.querySelectorAll('.project-card')).map((card, i) =>
       line(String(i + 1).padStart(2, '0') + '  ' + (card.dataset.title || ''))
@@ -503,65 +620,52 @@ function initTerminal() {
     if (!window.getSelection().toString()) input.focus({ preventScroll: true });
   });
 
-  const overTerminal = (ev) => {
-    const r = term.getBoundingClientRect();
-    return ev.clientX >= r.left && ev.clientX <= r.right &&
-           ev.clientY >= r.top && ev.clientY <= r.bottom;
-  };
-
-  document.querySelectorAll('#contact .file-chip').forEach(chip => {
-    chip.addEventListener('pointerdown', (e) => {
-      if (e.button > 0) return;
-      const startX = e.clientX, startY = e.clientY;
-      const rect = chip.getBoundingClientRect();
-      const offX = startX - rect.left, offY = startY - rect.top;
-      let ghost = null, moved = false;
-      chip.setPointerCapture(e.pointerId);
-
-      const cleanup = () => {
-        chip.removeEventListener('pointermove', onMove);
-        chip.removeEventListener('pointerup', onUp);
-        chip.removeEventListener('pointercancel', onCancel);
-        if (ghost) ghost.remove();
-        chip.classList.remove('is-source');
-        term.classList.remove('drop-ready');
-      };
-
-      const onMove = (ev) => {
-        if (!moved && Math.hypot(ev.clientX - startX, ev.clientY - startY) > 6) {
-          moved = true;
-          ghost = chip.cloneNode(true);
-          ghost.classList.add('dragging');
-          ghost.setAttribute('aria-hidden', 'true');
-          ghost.style.width = rect.width + 'px';
-          document.body.appendChild(ghost);
-          chip.classList.add('is-source');
-        }
-        if (moved) {
-          ghost.style.left = (ev.clientX - offX) + 'px';
-          ghost.style.top = (ev.clientY - offY) + 'px';
-          term.classList.toggle('drop-ready', overTerminal(ev));
-        }
-      };
-
-      const onUp = (ev) => {
-        const drop = !moved || overTerminal(ev);
-        cleanup();
-        if (drop) run('cat ' + chip.dataset.file);
-      };
-
-      const onCancel = () => cleanup();
-
-      chip.addEventListener('pointermove', onMove);
-      chip.addEventListener('pointerup', onUp);
-      chip.addEventListener('pointercancel', onCancel);
-    });
-
-    chip.addEventListener('click', (e) => {
-      if (e.detail === 0) run('cat ' + chip.dataset.file);
-    });
-  });
+  enableFileChips(document.querySelectorAll('#contact .file-chip'), term, (file) => run('cat ' + file));
 
   print(line('Backend Engineer & System Architect. Building resilient APIs, asynchronous pipelines, and scalable digital experiences across borders.', 'out-muted'));
   print(line('Type `help` for commands, or drag a file onto this window.', 'out-muted'));
+}
+
+// ==========================================================================
+// CONTACT BUTTONS + SAFETY NET
+// ==========================================================================
+function initContactButtons() {
+  document.querySelectorAll('[data-copy-email]').forEach((btn) => {
+    const label = btn.textContent;
+
+    btn.addEventListener('click', async () => {
+      const email = btn.dataset.copyEmail;
+      let copied = false;
+
+      try {
+        await navigator.clipboard.writeText(email);
+        copied = true;
+      } catch (err) {
+        const field = document.createElement('textarea');
+        field.value = email;
+        field.setAttribute('readonly', '');
+        field.style.position = 'fixed';
+        field.style.opacity = '0';
+        document.body.appendChild(field);
+        field.select();
+        try { copied = document.execCommand('copy'); } catch (e) { /* ignore */ }
+        field.remove();
       }
+
+      // If copying is blocked, show the address itself so it can be copied by hand
+      btn.textContent = copied ? 'Copied' : email;
+      setTimeout(() => { btn.textContent = label; }, 2500);
+    });
+  });
+}
+
+// Never trap visitors behind the preloader if a library is slow or blocked
+function initSafetyNet() {
+  const preloader = document.getElementById('preloader');
+  if (!preloader) return;
+
+  setTimeout(() => {
+    const style = getComputedStyle(preloader);
+    if (style.visibility !== 'hidden' && style.opacity !== '0') preloader.style.display = 'none';
+  }, 8000);
+}
