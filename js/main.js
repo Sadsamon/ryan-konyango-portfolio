@@ -355,7 +355,9 @@ function initProjectTerminal() {
       line('--- KENZIM (Cross-Border Community & Social Media Platform) ---'),
       line('Inspiration: Born from my role bridging communities between Zimbabwe and Kenya, I needed a centralized space to manage joint initiatives, coordinate leadership efforts, and archive public events effectively.'),
       line('Tools: React, Tailwind CSS, Supabase (Auth + Postgres), Leaflet with OpenStreetMap, and Vercel, shipped as an installable PWA.'),
-      line('Experience: Kenzim taught me to design around real constraints: role-based access for a multi-tier leadership structure, an admin review flow for new members, and an offline-capable app that runs entirely on free-tier infrastructure.')
+      line('Experience: Kenzim taught me to design around real constraints: role-based access for a multi-tier leadership structure, an admin approval workflow for new members, and a full-featured platform that stays deployable entirely on free-tier infrastructure.'),
+      line('Design targets: under 2 seconds average page load on 4G, 95%+ availability on free-tier infrastructure, and headroom for 5,000+ members without architectural changes.'),
+      line('Success targets (to be measured after launch): 70%+ member adoption within six months, 80% less manual registration and verification effort, 50% faster event registration, 30% higher event attendance, and 40% more engagement with announcements than WhatsApp or email broadcasts.')
     ],
     'unitrack.txt': () => [
       line('--- UNITRACK (Smart Notification & Attendance Engine) ---'),
