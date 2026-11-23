@@ -4,8 +4,13 @@ A scroll-driven, interactive developer portfolio. No frameworks, no build
 step — vanilla HTML/CSS/JS with Three.js and GSAP loaded via CDN, deployed
 as a static site on GitHub Pages.
 
+**Live:** https://sadsamon.github.io/ryan-konyango-portfolio/
+
 ## Features
 
+- **Scannable intro** — a short statement, key facts, a tech-stack chip
+  cloud, and direct email / GitHub / LinkedIn links up front, with the
+  longer story behind a native toggle
 - **Interactive 3D globe** — Three.js scene marking places lived, studied,
   and worked, with click-to-navigate pins that camera-zoom into the
   relevant section
@@ -15,12 +20,16 @@ as a static site on GitHub Pages.
 - **GSAP-driven transitions** — preloader sequence, entrance animations,
   and camera movement, all triggered by clicks, taps, or scroll position
   (no hover-dependent interactions)
+- **Project deep-dives** — each project is summarised with architecture
+  decisions and metrics; a project terminal (`ls`, `cat <file>`) holds the
+  longer write-ups
 - **Terminal-style contact** — a command-line interface (`help`, `ls`, `cat`,
   `contact`, `status`, history and tab-completion) with draggable file chips
   that run commands when dropped on the terminal; tap and keyboard fallbacks
-  included
+  included, and plain contact links alongside it
 - **Fully responsive** — desktop, tablet, and mobile, with touch-friendly
-  fallbacks for the 3D elements
+  fallbacks for the 3D elements; the page stays usable if WebGL or a CDN
+  library fails to load
 
 ## Tech Stack
 
@@ -41,7 +50,7 @@ as a static site on GitHub Pages.
 ├── css/
 │   └── style.css        # design tokens + all styling
 ├── js/
-│   └── main.js           # preloader, globe, project reveals
+│   └── main.js           # preloader, globe, project reveals, terminals
 └── assets/
     └── images/
 ```
@@ -51,8 +60,8 @@ as a static site on GitHub Pages.
 No build step required.
 
 ```bash
-git clone https://github.com/<your-username>/<your-repo>.git
-cd <your-repo>
+git clone https://github.com/Sadsamon/ryan-konyango-portfolio.git
+cd ryan-konyango-portfolio
 python3 -m http.server 8000
 ```
 
