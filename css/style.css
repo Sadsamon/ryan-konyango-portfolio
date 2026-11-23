@@ -170,6 +170,8 @@ a { color: inherit; text-decoration: none; }
 .project-metrics { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin: 0 0 var(--space-sm); }
 .project-metrics li { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); }
 .project-metrics strong { font-family: var(--font-heading); font-size: 1.2rem; color: var(--accent-orange); margin-right: 0.3em; }
+.project-metrics-targets strong { color: var(--text-primary); }
+.project-metrics-label { color: var(--accent-orange); }
 .project-link { margin-top: var(--space-sm); font-size: 0.85rem; }
 .project-link a { color: var(--accent-orange); text-decoration: underline; text-underline-offset: 3px; }
 
