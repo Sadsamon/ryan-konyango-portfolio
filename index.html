@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
+  <noscript><style>.preloader { display: none; }</style></noscript>
 </head>
 <body>
 
@@ -28,18 +29,71 @@
 
     <div class="hero-copy">
       <h1 class="hero-title">Software Developer <span class="hero-title-accent">/</span> Engineer</h1>
-      
-      <div class="hero-story">
-        <p class="hero-statement"><strong>Who I am & What I Build:</strong><br>I’m Ryan Kevin Omondi Konyango (also known as 瑞安)—a backend software engineer and computer science undergraduate based in Hangzhou, China, originally from Zimbabwe. I specialize in designing scalable backend architectures, distributed task queues, and resilient REST APIs using Python, Django, FastAPI, Node.js, and PostgreSQL. I don't just write code to pass tests; I build modular, production-ready systems grounded in clean architecture and solid data flows.</p>
-        
-        <p class="hero-statement"><strong>My Dream & Why I Do It:</strong><br>My ultimate ambition is to bridge cultures and solve real-world historical and social data representation challenges through software. I believe technology should preserve heritage, streamline human experiences, and empower communities. Whether I’m building a cultural preservation web platform or architecting automated data pipelines, my work is driven by a deep curiosity about how systems interact and a relentless drive to create things that genuinely matter.</p>
-        
-        <p class="hero-statement"><strong>How & Where I Do It:</strong><br>Operating out of university housing in Hangzhou while collaborating across borders, I approach engineering through visual first-principles planning—mapping out complex data flows and state interactions before writing a single line of backend logic. I combine rigorous technical standards with a completionist mindset, leveraging Docker, Redis, Celery, and automated CI/CD pipelines to ensure everything I ship is robust, maintainable, and built to scale.</p>
+      <p class="hero-statement">Backend engineer building scalable APIs, async task pipelines, and data systems.</p>
 
-        <p class="hero-statement"><strong>Goals & Ambitions:</strong><br>I’m currently focused on engineering high-impact distributed systems, expanding my technical footprint across global tech ecosystems, and ultimately stepping into roles where I can architect large-scale backend infrastructure that touches millions of lives.</p>
+      <dl class="intro-facts">
+        <div>
+          <dt class="mono">focus</dt>
+          <dd>Backend architecture, distributed task queues, REST APIs</dd>
+        </div>
+        <div>
+          <dt class="mono">based in</dt>
+          <dd>Hangzhou, China — originally from Zimbabwe</dd>
+        </div>
+        <div>
+          <dt class="mono">studying</dt>
+          <dd>Computer Science &amp; Engineering, Zhejiang Agriculture and Forestry University (expected 2028)</dd>
+        </div>
+        <div>
+          <dt class="mono">available</dt>
+          <dd>All forms of employment, plus freelance web and app design</dd>
+        </div>
+      </dl>
+
+      <div class="skills">
+        <h2 class="skills-heading mono">tech stack</h2>
+        <ul class="skill-cloud" aria-label="Tech stack">
+          <li>Python</li>
+          <li>Django</li>
+          <li>FastAPI</li>
+          <li>Node.js</li>
+          <li>PostgreSQL</li>
+          <li>Supabase</li>
+          <li>Redis</li>
+          <li>Celery</li>
+          <li>Docker</li>
+          <li>CI/CD</li>
+        </ul>
       </div>
-      
-      <p class="hero-availability mono">Open to all forms of employment, and available for freelance web and app design.</p>
+
+      <div class="contact-links">
+        <a class="contact-btn contact-btn-primary" href="mailto:konyangoryan@gmail.com">Email me</a>
+        <button type="button" class="contact-btn" data-copy-email="konyangoryan@gmail.com">Copy email</button>
+        <a class="contact-btn" href="https://github.com/Sadsamon" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="contact-btn" href="https://www.linkedin.com/in/ryan-konyango-431800232" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+
+      <details class="intro-more">
+        <summary class="mono">the longer story</summary>
+        <div class="intro-more-body">
+          <div>
+            <h3>Who I am and what I build</h3>
+            <p>I'm Ryan Kevin Omondi Konyango (瑞安), a backend engineer and computer science undergraduate in Hangzhou, originally from Zimbabwe. I design scalable backend architectures, distributed task queues, and resilient REST APIs, and I build them as modular, production-ready systems grounded in clean architecture and solid data flows.</p>
+          </div>
+          <div>
+            <h3>Why I do it</h3>
+            <p>I want to bridge cultures and solve real historical and social data-representation challenges through software. Technology should preserve heritage, streamline human experiences, and empower communities, whether that is a cultural preservation platform or an automated data pipeline.</p>
+          </div>
+          <div>
+            <h3>How I work</h3>
+            <p>I plan visually first, mapping data flows and state interactions before writing backend logic. I pair that with Docker, Redis, Celery, and automated CI/CD so what I ship is maintainable and built to scale.</p>
+          </div>
+          <div>
+            <h3>Where I'm heading</h3>
+            <p>Right now I'm focused on high-impact distributed systems and on expanding my footprint across global tech ecosystems, with the longer-term goal of architecting large-scale backend infrastructure.</p>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -74,49 +128,81 @@
     <div class="projects-layout">
       <div class="projects-list">
         
-        <article class="project-card" data-title="Annsana" data-status="shipped · 2026–present" data-stack="Django 5, PostgreSQL 16, HTMX, Celery, Redis, Docker">
+        <article class="project-card"
+          data-title="Annsana"
+          data-status="shipped · 2026–present"
+          data-stack="Django 5, PostgreSQL 16, HTMX, Celery, Redis, Docker">
           <div class="project-reveal">
             <span class="project-index mono">01</span>
             <h3 class="project-title">Annsana</h3>
-            <p class="project-summary">End-to-end platform for African cultural-heritage preservation — media management, user workflows, and secure transactions.</p>
+            <p class="project-summary">Cultural-heritage preservation platform for African communities: media archive, user workflows, and secure transactions in one modular Django system.</p>
+            <ul class="project-metrics" aria-label="Key figures">
+              <li><strong>5</strong> Django apps</li>
+              <li><strong>7</strong> delivery phases shipped</li>
+            </ul>
             <ul class="project-highlights">
-              <li>Architected the database schema, REST API, auth, and deployment pipeline from scratch</li>
-              <li>Async image-processing workflow via Celery, Redis, and Pillow</li>
+              <li><strong>Async media pipeline.</strong> Image processing runs in Celery workers behind a Redis broker, so uploads return immediately and workers scale independently of the web tier.</li>
+              <li><strong>Versioned, rate-limited API.</strong> DRF endpoints secured with OAuth2/JWT, with Redis-backed rate limiting protecting shared routes.</li>
+              <li><strong>Clear boundaries.</strong> Designed the PostgreSQL schema and a modular monolith so each domain can evolve in its own app.</li>
+              <li><strong>Delivery pipeline.</strong> Dockerised, with GitHub Actions CI/CD and automated tests covering the auth and rate-limiting flows.</li>
             </ul>
           </div>
         </article>
 
-        <article class="project-card" data-title="Kenzim" data-status="live · in development" data-stack="React, Node.js, Express, MongoDB, Firebase">
+        <article class="project-card"
+          data-title="Kenzim"
+          data-status="live · in development"
+          data-stack="React, Tailwind CSS, Supabase, Leaflet, Vercel, PWA">
           <div class="project-reveal">
             <span class="project-index mono">02</span>
             <h3 class="project-title">Kenzim</h3>
-            <p class="project-summary">Installable progressive web app for the Kenyan community in Zimbabwe — membership, events, news, and a community marketplace.</p>
+            <p class="project-summary">Installable progressive web app for the Kenyan community in Zimbabwe: membership, events, news, a directory, and a community marketplace. Built for a client.</p>
             <ul class="project-highlights">
-              <li>Supabase auth and Postgres, with a role hierarchy and admin review flow</li>
-              <li>Dues tracking, events with RSVP, and a places map</li>
+              <li><strong>Offline-capable PWA.</strong> Installs to the home screen and shows an offline fallback when connectivity drops.</li>
+              <li><strong>Role-based access.</strong> Supabase Auth and Postgres back a multi-tier role hierarchy and an admin review flow for new members.</li>
+              <li><strong>Member operations.</strong> Dues tracking, events with RSVP and photo gallery, a news feed, and a member directory.</li>
+              <li><strong>Built for constraints.</strong> Designed to run entirely on free-tier services (Vercel, Supabase, OpenStreetMap), including a places map and marketplace.</li>
             </ul>
+            <p class="project-link mono"><a href="https://kenzim-blue.vercel.app" target="_blank" rel="noopener noreferrer">kenzim-blue.vercel.app</a></p>
           </div>
         </article>
 
-        <article class="project-card" data-title="UniTrack" data-status="complete" data-stack="Node.js, MongoDB, Firebase, Scikit-learn">
+        <article class="project-card"
+          data-title="UniTrack"
+          data-status="complete"
+          data-stack="Python, Node.js, MongoDB, Scikit-learn, Firebase">
           <div class="project-reveal">
             <span class="project-index mono">03</span>
             <h3 class="project-title">UniTrack</h3>
-            <p class="project-summary">Academic performance and attendance tracking system that predicts attendance behavior and triggers automated alerts.</p>
+            <p class="project-summary">Attendance and academic-performance tracking system that predicts attendance behaviour and triggers automated alerts.</p>
+            <ul class="project-metrics" aria-label="Key figures">
+              <li><strong>92%</strong> prediction accuracy</li>
+            </ul>
             <ul class="project-highlights">
-              <li>Linear regression model behind REST endpoints — 92% prediction accuracy</li>
-              <li>Real-time alerts via Firebase webhooks</li>
+              <li><strong>Model behind the API.</strong> A supervised linear-regression model (Scikit-learn) sits behind REST endpoints, so predictions are available to any client on demand.</li>
+              <li><strong>Real-time alerts.</strong> Firebase webhooks deliver instant status notifications alongside the analytics engine.</li>
+              <li><strong>Flexible data model.</strong> MongoDB document schemas hold longitudinal student records and accommodate evolving metrics.</li>
             </ul>
           </div>
         </article>
 
-        <article class="project-card" data-title="Construction ETL Pipeline" data-status="production-ready" data-stack="Python, PostgreSQL, Pandas, Scikit-learn">
+        <article class="project-card"
+          data-title="Construction ETL Pipeline"
+          data-status="production-ready"
+          data-stack="Python, PostgreSQL, Scikit-learn, Pandas">
           <div class="project-reveal">
             <span class="project-index mono">04</span>
             <h3 class="project-title">Construction ETL Pipeline</h3>
-            <p class="project-summary">Automated pricing intelligence for Africa's construction sector — a data pipeline paired with a forecasting model.</p>
+            <p class="project-summary">Automated pricing-intelligence pipeline for Africa's construction sector: ingest, clean, and forecast in one repeatable workflow.</p>
+            <ul class="project-metrics" aria-label="Key figures">
+              <li><strong>82%</strong> back-tested accuracy</li>
+              <li><strong>1,200+</strong> records processed</li>
+              <li><strong>60%</strong> less preprocessing time</li>
+            </ul>
             <ul class="project-highlights">
-              <li>Random Forest model back-tested over a 5-year window — 82% accuracy</li>
+              <li><strong>Repeatable ETL.</strong> A custom pipeline ingests, cleans, and structures raw pricing data into PostgreSQL, replacing a manual process.</li>
+              <li><strong>Forecasting model.</strong> A Random Forest model, trained and back-tested over a strict five-year window.</li>
+              <li><strong>Less manual work.</strong> Automating data preparation cut preprocessing time by 60% against the legacy workflow.</li>
             </ul>
           </div>
         </article>
@@ -306,6 +392,13 @@
   <!-- CONTACT TERMINAL -->
   <section id="contact" class="section contact-section">
     <h2 class="contact-heading">Contact</h2>
+    <div class="contact-links">
+      <a class="contact-btn contact-btn-primary" href="mailto:konyangoryan@gmail.com">Email me</a>
+      <button type="button" class="contact-btn" data-copy-email="konyangoryan@gmail.com">Copy email</button>
+      <a class="contact-btn" href="https://github.com/Sadsamon" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a class="contact-btn" href="https://www.linkedin.com/in/ryan-konyango-431800232" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+
     <p class="contact-sub mono">type a command, or drag a file onto the terminal</p>
 
     <div class="terminal" id="terminal" role="region" aria-label="Interactive terminal">
@@ -331,4 +424,4 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
-                                 </html>
+</html>
