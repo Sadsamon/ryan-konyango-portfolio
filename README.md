@@ -11,6 +11,8 @@ as a static site on GitHub Pages.
 - **Scannable intro** — a short statement, key facts, a tech-stack chip
   cloud, and direct email / GitHub / LinkedIn links up front, with the
   longer story behind a native toggle
+- **Sticky navigation** — anchor links with scroll-driven active state, and a
+  contact call-to-action that stays in reach
 - **Interactive 3D globe** — Three.js scene marking places lived, studied,
   and worked, with click-to-navigate pins that camera-zoom into the
   relevant section
@@ -20,16 +22,19 @@ as a static site on GitHub Pages.
 - **GSAP-driven transitions** — preloader sequence, entrance animations,
   and camera movement, all triggered by clicks, taps, or scroll position
   (no hover-dependent interactions)
-- **Project deep-dives** — each project is summarised with architecture
-  decisions and metrics; a project terminal (`ls`, `cat <file>`) holds the
-  longer write-ups
+- **Project case studies** — each project leads with the problem, then an
+  architecture diagram, key decisions, metrics, and links; the full write-up
+  sits in a native toggle on the card
+- **Project terminal** — the same write-ups are readable from a command-line
+  interface (`ls`, `cat <file>`), with tap-to-run command and file buttons
 - **Terminal-style contact** — a command-line interface (`help`, `ls`, `cat`,
   `contact`, `status`, history and tab-completion) with draggable file chips
   that run commands when dropped on the terminal; tap and keyboard fallbacks
   included, and plain contact links alongside it
 - **Fully responsive** — desktop, tablet, and mobile, with touch-friendly
   fallbacks for the 3D elements; the page stays usable if WebGL or a CDN
-  library fails to load
+  library fails to load, the globe pauses rendering when off-screen, and the
+  preloader runs once per session and respects reduced-motion settings
 
 ## Tech Stack
 
