@@ -19,12 +19,13 @@
   --space-lg: 4rem;
   --space-xl: 8rem;
 
+  --nav-height: 52px;
   --content-max-width: 720px;
   --edge-padding: clamp(1.5rem, 5vw, 4rem);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
@@ -177,7 +178,7 @@ a { color: inherit; text-decoration: none; }
 
 /* Dynamic HUD Panel */
 .projects-panel {
-  order: 1; position: sticky; top: 0; z-index: 5;
+  order: 1; position: sticky; top: var(--nav-height); z-index: 5;
   background: #1e1915; border: 1px solid var(--accent-burgundy);
   border-left: 3px solid var(--accent-orange); padding: var(--space-sm);
   box-shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -194,7 +195,7 @@ a { color: inherit; text-decoration: none; }
 @media (min-width: 900px) {
   .projects-layout { grid-template-columns: 1fr 280px; }
   .project-card { order: 1; }
-  .projects-panel { order: 2; top: var(--space-md); }
+  .projects-panel { order: 2; top: calc(var(--nav-height) + var(--space-sm)); }
 }
 
 /* Project Mini-Terminal */
@@ -271,3 +272,71 @@ a { color: inherit; text-decoration: none; }
   .terminal-body { height: min(40vh, 320px); }
   .file-chip { min-height: 44px; }
 }
+
+/* ==========================================================================
+   SITE NAVIGATION
+   ========================================================================== */
+.site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm);
+  height: var(--nav-height); padding: 0 var(--edge-padding);
+  background: rgba(26, 22, 19, 0.92); border-bottom: 1px solid var(--bg-secondary);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.site-nav-brand { color: var(--text-primary); font-size: 0.9rem; }
+.site-nav-links { list-style: none; display: flex; align-items: center; gap: clamp(0.4rem, 2.5vw, 1.5rem); }
+.site-nav-links a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.4em;
+  font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);
+}
+.site-nav-links a[aria-current="true"] { color: var(--accent-orange); }
+.site-nav-links a.site-nav-cta {
+  min-height: 34px; padding: 0 0.9em; border-radius: 4px;
+  background: var(--accent-orange); color: var(--bg-primary); font-weight: 500;
+}
+@media (max-width: 420px) {
+  .site-nav { justify-content: flex-end; }
+  .site-nav-brand { display: none; }
+}
+
+/* ==========================================================================
+   CASE-STUDY PROJECT CARDS
+   ========================================================================== */
+.project-problem { color: var(--text-muted); max-width: 60ch; margin-bottom: var(--space-sm); font-size: 0.95rem; }
+.project-problem .mono { color: var(--accent-orange); font-size: 0.75rem; margin-right: 0.6em; }
+
+
+.arch { display: grid; gap: 0.6rem; margin: 0 0 var(--space-sm); max-width: 60ch; }
+.arch-lane { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.5rem; }
+.arch-tag { width: 4.5rem; flex: none; font-size: 0.7rem; color: var(--text-muted); }
+.arch-node {
+  font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-primary);
+  border: 1px solid var(--text-muted); border-radius: 3px; padding: 0.25em 0.6em;
+}
+.arch-node + .arch-node::before { content: '→'; color: var(--accent-orange); margin-right: 0.5em; }
+.arch-node + .arch-node { border-left-width: 1px; }
+@media (max-width: 480px) { .arch-tag { width: 100%; } }
+
+.project-link { display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; }
+
+.project-more { margin-top: var(--space-sm); max-width: 60ch; }
+.project-more summary {
+  display: flex; align-items: center; min-height: 44px; font-size: 0.8rem;
+  color: var(--accent-orange); list-style: none; cursor: pointer;
+}
+.project-more summary::-webkit-details-marker { display: none; }
+.project-more summary::before { content: '+'; margin-right: 0.6em; }
+.project-more[open] summary::before { content: '−'; }
+.project-more-body { display: grid; gap: var(--space-sm); color: var(--text-muted); font-size: 0.95rem; }
+.project-more-body strong { color: var(--text-primary); font-weight: 600; }
+
+.projects-cta { margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px dashed var(--text-muted); }
+.projects-cta-text { font-family: var(--font-heading); font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 700; }
+
+.cmd-chip {
+  font-size: 0.85rem; color: var(--text-primary); background: transparent;
+  border: 1px solid var(--text-muted); border-radius: 4px; padding: 0.5em 0.9em;
+  min-height: 44px; cursor: pointer;
+}
+
+.exp-detail a { color: var(--accent-orange); text-decoration: underline; text-underline-offset: 3px; }
