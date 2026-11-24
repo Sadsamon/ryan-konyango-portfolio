@@ -1,12 +1,14 @@
 // Portfolio — main.js
 document.addEventListener('DOMContentLoaded', () => {
   [
-    runPreloader, initGlobe, initReturnPins, initProjects,
+    runPreloader, initNav, initGlobe, initReturnPins, initProjects,
     initProjectTerminal, initTerminal, initContactButtons, initSafetyNet
   ].forEach((init) => {
     try { init(); } catch (err) { console.error(init.name + ' failed:', err); }
   });
 });
+
+const prefersReducedMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
 function runPreloader() {
   const preloader = document.getElementById('preloader');
@@ -18,6 +20,16 @@ function runPreloader() {
     return;
   }
 
+  // Full sequence once per session; skipped on return visits and for reduced motion
+  let seen = false;
+  try { seen = sessionStorage.getItem('preloaderSeen') === '1'; } catch (e) { /* storage blocked */ }
+  if (seen || prefersReducedMotion) {
+    preloader.style.display = 'none';
+    if (!prefersReducedMotion) animateHeroIn();
+    return;
+  }
+  try { sessionStorage.setItem('preloaderSeen', '1'); } catch (e) { /* storage blocked */ }
+
   const counter = { value: 0 };
   const tl = gsap.timeline({
     onComplete: () => {
@@ -27,9 +39,32 @@ function runPreloader() {
   });
 
   tl.to(counter, {
-    value: 100, duration: 1.4, ease: 'power1.inOut',
+    value: 100, duration: 0.9, ease: 'power1.inOut',
     onUpdate: () => { countEl.textContent = Math.round(counter.value); }
-  }).to(preloader, { autoAlpha: 0, duration: 0.6, ease: 'power1.out' }, '+=0.1');
+  }).to(preloader, { autoAlpha: 0, duration: 0.4, ease: 'power1.out' }, '+=0.05');
+}
+
+// Highlight the nav link for the section currently in view
+function initNav() {
+  const links = document.querySelectorAll('.site-nav-links a');
+  if (!links.length || !('IntersectionObserver' in window)) return;
+
+  const sectionToLink = { hero: '#hero', globe: '#globe', projects: '#projects', experience: '#globe', contact: '#contact' };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting || !sectionToLink[entry.target.id]) return;
+      links.forEach((a) => {
+        if (a.getAttribute('href') === sectionToLink[entry.target.id]) a.setAttribute('aria-current', 'true');
+        else a.removeAttribute('aria-current');
+      });
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  Object.keys(sectionToLink).forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
 }
 
 function animateHeroIn() {
@@ -54,7 +89,8 @@ const REGIONS = [
 let scene, camera, renderer, globeGroup, pins = [];
 let defaultCameraPos;
 let raycaster, mouse;
-let idleRotation = true;
+let idleRotation = !prefersReducedMotion;
+let globeVisible = true;
 
 function initGlobe() {
   document.querySelectorAll('.pin-btn').forEach(btn => {
@@ -80,7 +116,7 @@ function initGlobe() {
     defaultCameraPos = camera.position.clone();
 
     renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(width, height);
 
     globeGroup = new THREE.Group();
@@ -106,6 +142,9 @@ function initGlobe() {
 
     canvas.addEventListener('click', onGlobeClick);
     window.addEventListener('resize', onGlobeResize);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => { globeVisible = entries[0].isIntersecting; }).observe(stage);
+    }
     animateGlobe();
   } catch (error) {
     console.error('WebGL failed.', error);
@@ -181,11 +220,11 @@ function initReturnPins() {
         if (typeof gsap !== 'undefined') {
           gsap.to(camera.position, {
             x: defaultCameraPos.x, y: defaultCameraPos.y, z: defaultCameraPos.z,
-            duration: 1, ease: 'power2.inOut', onUpdate: () => camera.lookAt(0, 0, 0), onComplete: () => { idleRotation = true; }
+            duration: 1, ease: 'power2.inOut', onUpdate: () => camera.lookAt(0, 0, 0), onComplete: () => { idleRotation = !prefersReducedMotion; }
           });
         } else {
           camera.position.set(defaultCameraPos.x, defaultCameraPos.y, defaultCameraPos.z);
-          camera.lookAt(0, 0, 0); idleRotation = true;
+          camera.lookAt(0, 0, 0); idleRotation = !prefersReducedMotion;
         }
       }
       document.querySelectorAll('.pin-btn').forEach(b => b.removeAttribute('aria-current'));
@@ -195,6 +234,7 @@ function initReturnPins() {
 
 function animateGlobe() {
   requestAnimationFrame(animateGlobe);
+  if (!globeVisible) return;
   if (idleRotation && globeGroup) globeGroup.rotation.y += 0.0018;
   if (renderer && scene && camera) renderer.render(scene, camera);
 }
@@ -318,6 +358,11 @@ function enableFileChips(chips, term, runFile) {
   });
 }
 
+// Tap-to-run command buttons shown beside a terminal
+function enableCommandChips(chips, runCommand) {
+  chips.forEach(chip => chip.addEventListener('click', () => runCommand(chip.dataset.cmd)));
+}
+
 // ==========================================================================
 // PROJECT TERMINAL
 // ==========================================================================
@@ -344,52 +389,22 @@ function initProjectTerminal() {
     body.scrollTop = body.scrollHeight;
   }
 
-  const PROJECT_FILES = {
-    'annsana.txt': () => [
-      line('--- ANNSANA (Cultural Preservation Platform) ---'),
-      line('Inspiration: History, heritage, and cultural identity deserve robust, modern digital homes. I wanted to build a platform that transcends static archives and actively preserves cultural data with integrity and speed.'),
-      line('Tools: Django 5, PostgreSQL 16, Celery, Redis, Tailwind CSS, Docker, and versioned REST APIs.'),
-      line('Experience: Designing Annsana pushed me to master asynchronous media pipelines and complex relational data modeling. Handling heavy media assets cleanly in the background without blocking the main thread taught me invaluable lessons about real-world system responsiveness and data integrity.')
-    ],
-    'kenzim.txt': () => [
-      line('--- KENZIM (Cross-Border Community & Social Media Platform) ---'),
-      line('Inspiration: Born from my role bridging communities between Zimbabwe and Kenya, I needed a centralized space to manage joint initiatives, coordinate leadership efforts, and archive public events effectively.'),
-      line('Tools: React, Tailwind CSS, Supabase (Auth + Postgres), Leaflet with OpenStreetMap, and Vercel, shipped as an installable PWA.'),
-      line('Experience: Kenzim taught me to design around real constraints: role-based access for a multi-tier leadership structure, an admin approval workflow for new members, and a full-featured platform that stays deployable entirely on free-tier infrastructure.'),
-      line('Design targets: under 2 seconds average page load on 4G, 95%+ availability on free-tier infrastructure, and headroom for 5,000+ members without architectural changes.'),
-      line('Success targets (to be measured after launch): 70%+ member adoption within six months, 80% less manual registration and verification effort, 50% faster event registration, 30% higher event attendance, and 40% more engagement with announcements than WhatsApp or email broadcasts.')
-    ],
-    'unitrack.txt': () => [
-      line('--- UNITRACK (Smart Notification & Attendance Engine) ---'),
-      line('Inspiration: Academic administration shouldn\'t rely on guesswork. I wanted to build an intelligent tracking system that goes beyond simple logs to actively predict attendance patterns and keep stakeholders informed instantly.'),
-      line('Tools: Node.js, MongoDB, Firebase triggers, and a Python Scikit-learn predictive model.'),
-      line('Experience: Merging classical relational backend logic with a machine learning predictive pipeline (achieving 92% accuracy) was a breakthrough moment in understanding how data science and backend engineering feed into each other.')
-    ],
-    'etl.txt': () => [
-      line('--- CONSTRUCTION ETL PIPELINE & FORECASTING MODEL ---'),
-      line('Inspiration: Raw market data is messy and unstructured. I wanted to build a reliable data engineering pipeline that could ingest, clean, and forecast market pricing trends with high historical reliability.'),
-      line('Tools: Python, PostgreSQL, Pandas, and Random Forest regression.'),
-      line('Experience: Back-testing this pipeline over 5 years and hitting 82% forecasting accuracy taught me the rigorous discipline of data hygiene, schema design, and tuning automated ETL jobs for fault tolerance.')
-    ],
-    'ai-security.txt': () => [
-      line('--- AI ASSISTANT & LOG AUDITING SECURITY FRAMEWORK ---'),
-      line('Inspiration: Modern security monitoring produces an overwhelming ocean of logs. I wanted an intelligent guardian that could audit system logs autonomously and flag anomalies before they become vulnerabilities.'),
-      line('Tools: Python, LangChain/LLMs, Celery, Redis, and PostgreSQL.'),
-      line('Experience: Combining asynchronous task queues with LLM-driven inference required strict safety boundaries and efficient prompt-to-queue orchestration—sharpening my skills in building autonomous background agents.')
-    ],
-    'freelance.txt': () => [
-      line('--- FREELANCE WEB APPLICATION (Zimbabwe Client) ---'),
-      line('Inspiration: Real-world client delivery demands clean contracts, modular design, and razor-sharp execution under commercial timelines.'),
-      line('Tools: React frontend, Supabase backend, PostgreSQL, and Tailwind CSS.'),
-      line('Experience: Managing a client relationship independently while delivering a performant, production-grade web app at a professional hourly rate reinforced my ability to translate vague business requirements into clean, deployable software.')
-    ],
-    'community.txt': () => [
-      line('--- COMMUNITY DEVELOPMENT & LEADERSHIP (Harare) ---'),
-      line('Inspiration: Technology means nothing if we don\'t uplift the communities around us. Organizing a two-way development project at a local orphanage in Harare was about rolling up my sleeves and creating physical, lasting infrastructure for students.'),
-      line('Tools: Project management, fundraising campaigns, brick-and-mortar execution, and grassroots leadership.'),
-      line('Experience: Leading teams through high-stakes community projects taught me empathy, resilience, and cross-functional organization—skills that directly translate into how I lead technical teams today.')
-    ]
-  };
+  // Each file is built from the card's "full write-up" on the page
+  const PROJECT_FILES = {};
+  document.querySelectorAll('.project-card[data-file]').forEach(card => {
+    const paragraphs = Array.from(card.querySelectorAll('.project-more-body p'));
+    if (!paragraphs.length) return;
+    PROJECT_FILES[card.dataset.file] = () => [
+      line('--- ' + (card.dataset.title || '').toUpperCase() + ' ---'),
+      ...paragraphs.map(p => {
+        const label = p.querySelector('strong');
+        if (!label) return line(p.textContent.trim());
+        const head = label.textContent.trim().replace(/\.$/, '');
+        const body = p.textContent.slice(label.textContent.length).trim();
+        return line(head + ': ' + body);
+      })
+    ];
+  });
 
   const COMMAND_NAMES = ['help', 'ls', 'cat', 'clear'];
 
@@ -460,6 +475,7 @@ function initProjectTerminal() {
   });
 
   enableFileChips(document.querySelectorAll('#projects .file-chip'), term, (file) => run('cat ' + file));
+  enableCommandChips(document.querySelectorAll('#projects .cmd-chip'), run);
 }
 
 // ==========================================================================
@@ -554,7 +570,10 @@ function initTerminal() {
       return FILES[args[0]]();
     },
     whoami:  () => [line('Ryan — Backend Engineer & System Architect.')],
-    status:  () => [line('open to all forms of employment'), line('available for freelance web and app design')],
+    status:  () => [
+      line('looking for: backend, data engineering, Linux systems administration, and software engineering roles (any employment type)'),
+      line('freelance: web and app design')
+    ],
     contact: () => [...FILES['email.txt'](), ...FILES['phone.txt'](), ...FILES['socials.txt']()],
     email:   () => FILES['email.txt'](),
     phone:   () => FILES['phone.txt'](),
@@ -623,6 +642,7 @@ function initTerminal() {
   });
 
   enableFileChips(document.querySelectorAll('#contact .file-chip'), term, (file) => run('cat ' + file));
+  enableCommandChips(document.querySelectorAll('#contact .cmd-chip'), run);
 
   print(line('Backend Engineer & System Architect. Building resilient APIs, asynchronous pipelines, and scalable digital experiences across borders.', 'out-muted'));
   print(line('Type `help` for commands, or drag a file onto this window.', 'out-muted'));
