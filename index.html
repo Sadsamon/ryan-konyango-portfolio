@@ -6,6 +6,15 @@
   <title>Ryan — Software Developer / Engineer</title>
   <meta name="description" content="Backend-focused software developer and freelance web and app designer — architecture, data engineering, and full-stack builds across Africa and Asia.">
 
+  <meta name="theme-color" content="#1A1613">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%231A1613'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='38' font-weight='700' text-anchor='middle' fill='%23E67E22'%3ER%3C/text%3E%3C/svg%3E">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ryan — Software Developer / Engineer">
+  <meta property="og:description" content="Backend-focused software developer and freelance web and app designer — architecture, data engineering, and full-stack builds across Africa and Asia.">
+  <meta property="og:url" content="https://sadsamon.github.io/ryan-konyango-portfolio/">
+  <meta property="og:image" content="https://sadsamon.github.io/ryan-konyango-portfolio/assets/images/portrait.jpg">
+  <meta name="twitter:card" content="summary">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -19,36 +28,54 @@
     <span id="preloader-count" class="preloader-count mono">0</span>
   </div>
 
+  <nav class="site-nav" aria-label="Primary">
+    <a class="site-nav-brand mono" href="#hero">ryan</a>
+    <ul class="site-nav-links">
+      <li><a href="#hero">About</a></li>
+      <li><a href="#globe">Journey</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a class="site-nav-cta" href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
   <!-- HERO / ABOUT -->
   <section id="hero" class="section hero">
     <span class="hero-type" aria-hidden="true">RYAN</span>
 
     <div class="hero-frame">
-      <img src="assets/images/portrait.jpg" alt="Ryan, Software Engineer" class="hero-photo">
+      <img src="assets/images/portrait.jpg" alt="Ryan, Software Engineer" class="hero-photo" fetchpriority="high">
     </div>
 
     <div class="hero-copy">
       <h1 class="hero-title">Software Developer <span class="hero-title-accent">/</span> Engineer</h1>
       <p class="hero-statement">Backend engineer building scalable APIs, async task pipelines, and data systems.</p>
 
-      <dl class="intro-facts">
-        <div>
-          <dt class="mono">focus</dt>
-          <dd>Backend architecture, distributed task queues, REST APIs</dd>
-        </div>
-        <div>
-          <dt class="mono">based in</dt>
-          <dd>Hangzhou, China — originally from Zimbabwe</dd>
-        </div>
-        <div>
-          <dt class="mono">studying</dt>
-          <dd>Computer Science &amp; Engineering, Zhejiang Agriculture and Forestry University (expected 2028)</dd>
-        </div>
-        <div>
-          <dt class="mono">available</dt>
-          <dd>All forms of employment, plus freelance web and app design</dd>
-        </div>
-      </dl>
+    <dl class="intro-facts">
+      <div>
+        <dt class="mono">focus</dt>
+        <dd>Backend architecture, distributed task queues, REST APIs</dd>
+      </div>
+      <div>
+        <dt class="mono">approach</dt>
+        <dd>Modular architecture, async processing for heavy work, containerized CI/CD delivery</dd>
+      </div>
+      <div>
+        <dt class="mono">based in</dt>
+        <dd>Hangzhou, China — originally from Zimbabwe</dd>
+      </div>
+      <div>
+        <dt class="mono">studying</dt>
+        <dd>Computer Science &amp; Engineering, Zhejiang Agriculture and Forestry University (expected 2028)</dd>
+      </div>
+      <div>
+        <dt class="mono">looking for</dt>
+        <dd>Backend, data engineering, Linux systems administration, and software engineering roles, in any employment type</dd>
+      </div>
+      <div>
+        <dt class="mono">freelance</dt>
+        <dd>Web and app design</dd>
+      </div>
+    </dl>
 
       <div class="skills">
         <h2 class="skills-heading mono">tech stack</h2>
@@ -67,7 +94,7 @@
       </div>
 
       <div class="contact-links">
-        <a class="contact-btn contact-btn-primary" href="mailto:konyangoryan@gmail.com">Email me</a>
+        <a class="contact-btn contact-btn-primary" href="mailto:konyangoryan@gmail.com?subject=Role%20or%20project%20inquiry">Email me</a>
         <button type="button" class="contact-btn" data-copy-email="konyangoryan@gmail.com">Copy email</button>
         <a class="contact-btn" href="https://github.com/Sadsamon" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a class="contact-btn" href="https://www.linkedin.com/in/ryan-konyango-431800232" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -127,122 +154,177 @@
 
     <div class="projects-layout">
       <div class="projects-list">
-        
-        <article class="project-card"
-          data-title="Annsana"
-          data-status="shipped · 2026–present"
-          data-stack="Django 5, PostgreSQL 16, HTMX, Celery, Redis, Docker">
+
+        <article class="project-card" data-title="Annsana" data-file="annsana.txt" data-status="shipped · 2026–present" data-stack="Django 5, PostgreSQL 16, HTMX, Celery, Redis, Docker">
           <div class="project-reveal">
             <span class="project-index mono">01</span>
             <h3 class="project-title">Annsana</h3>
-            <p class="project-summary">Cultural-heritage preservation platform for African communities: media archive, user workflows, and secure transactions in one modular Django system.</p>
+            <p class="project-summary">Digital platform that bridges social expression and archival research, with a focus on preserving and celebrating African cultures.</p>
+            <p class="project-problem"><span class="mono">problem</span> Archives tend to stay static. Heritage needs a platform that preserves cultural data with integrity and speed.</p>
             <ul class="project-metrics" aria-label="Key figures">
               <li><strong>5</strong> Django apps</li>
               <li><strong>7</strong> delivery phases shipped</li>
             </ul>
+            <div class="arch" role="img" aria-label="Annsana architecture. Request path: client, Django 5 with a versioned DRF API, PostgreSQL 16. Async path: Django, Redis broker, Celery workers using Pillow, processed media.">
+              <div class="arch-lane"><span class="arch-tag mono">request</span><span class="arch-node">Client (HTMX + Tailwind)</span><span class="arch-node">Django 5 + DRF v1</span><span class="arch-node">PostgreSQL 16</span></div>
+              <div class="arch-lane"><span class="arch-tag mono">async</span><span class="arch-node">Django</span><span class="arch-node">Redis broker</span><span class="arch-node">Celery workers (Pillow)</span><span class="arch-node">Processed media</span></div>
+            </div>
             <ul class="project-highlights">
               <li><strong>Async media pipeline.</strong> Image processing runs in Celery workers behind a Redis broker, so uploads return immediately and workers scale independently of the web tier.</li>
               <li><strong>Versioned, rate-limited API.</strong> DRF endpoints secured with OAuth2/JWT, with Redis-backed rate limiting protecting shared routes.</li>
               <li><strong>Clear boundaries.</strong> Designed the PostgreSQL schema and a modular monolith so each domain can evolve in its own app.</li>
-              <li><strong>Delivery pipeline.</strong> Dockerised, with GitHub Actions CI/CD and automated tests covering the auth and rate-limiting flows.</li>
+              <li><strong>Delivery pipeline.</strong> Dockerized, with GitHub Actions CI/CD and automated tests covering the auth and rate-limiting flows.</li>
             </ul>
+            <p class="project-link mono"><a href="https://github.com/Sadsamon/Annsana" target="_blank" rel="noopener noreferrer">source on GitHub</a></p>
+            <details class="project-more">
+              <summary class="mono">full write-up</summary>
+              <div class="project-more-body">
+                <p><strong>Inspiration.</strong> History, heritage, and cultural identity deserve robust, modern digital homes. I wanted to build a platform that transcends static archives and actively preserves cultural data with integrity and speed.</p>
+                <p><strong>Tools.</strong> Django 5, PostgreSQL 16, Celery, Redis, Tailwind CSS, Docker, and versioned REST APIs.</p>
+                <p><strong>Experience.</strong> Designing Annsana pushed me to master asynchronous media pipelines and complex relational data modeling. Handling heavy media assets cleanly in the background without blocking the main thread taught me invaluable lessons about real-world system responsiveness and data integrity.</p>
+              </div>
+            </details>
           </div>
         </article>
 
-        <article class="project-card"
-          data-title="Kenzim"
-          data-status="live · in development"
-          data-stack="React, Tailwind CSS, Supabase, Leaflet, Vercel, PWA">
+        <article class="project-card" data-title="Kenzim" data-file="kenzim.txt" data-status="live · in development" data-stack="Next.js, TypeScript, Tailwind CSS, Supabase, Leaflet, Vercel, PWA">
           <div class="project-reveal">
             <span class="project-index mono">02</span>
             <h3 class="project-title">Kenzim</h3>
             <p class="project-summary">Installable progressive web app for the Kenyan community in Zimbabwe: one platform for membership, communication, events, and a community marketplace, deployable entirely on free-tier cloud infrastructure. Built for a client.</p>
+            <p class="project-problem"><span class="mono">problem</span> A community coordinating through WhatsApp groups and email broadcasts, with manual member registration and verification.</p>
             <ul class="project-metrics project-metrics-targets" aria-label="Design targets">
               <li class="project-metrics-label">design targets</li>
               <li><strong>&lt;2 s</strong> page load on 4G</li>
               <li><strong>95%+</strong> availability on free tier</li>
               <li><strong>5,000+</strong> members of headroom</li>
             </ul>
+            <div class="arch" role="img" aria-label="Kenzim architecture. App path: installable PWA built with Next.js on Vercel, Supabase Auth with a role hierarchy, PostgreSQL for members, dues and events. Map path: Leaflet, OpenStreetMap tiles.">
+              <div class="arch-lane"><span class="arch-tag mono">app</span><span class="arch-node">Installable PWA (Next.js on Vercel)</span><span class="arch-node">Supabase Auth (role hierarchy)</span><span class="arch-node">PostgreSQL (members, dues, events)</span></div>
+              <div class="arch-lane"><span class="arch-tag mono">map</span><span class="arch-node">Leaflet</span><span class="arch-node">OpenStreetMap tiles</span></div>
+            </div>
             <ul class="project-highlights">
               <li><strong>Installable PWA.</strong> Installs on mobile and desktop and falls back gracefully when connectivity drops.</li>
               <li><strong>Secure member management.</strong> Supabase Auth and PostgreSQL back a multi-level role hierarchy, with an administrative approval workflow for new members.</li>
               <li><strong>Community operations.</strong> Dues tracking, event registration with RSVP, news publishing, photo galleries, a member directory, a marketplace, and an interactive community map.</li>
               <li><strong>Cost-efficient by design.</strong> Runs entirely on free-tier services (Vercel, Supabase, OpenStreetMap), with a straightforward migration path to paid tiers as the community grows.</li>
             </ul>
-            <p class="project-link mono"><a href="https://kenzim-blue.vercel.app" target="_blank" rel="noopener noreferrer">kenzim-blue.vercel.app</a></p>
+            <p class="project-link mono"><a href="https://github.com/Sadsamon/Kenzim" target="_blank" rel="noopener noreferrer">source on GitHub</a> <a href="https://kenzim-blue.vercel.app" target="_blank" rel="noopener noreferrer">live site</a></p>
+            <details class="project-more">
+              <summary class="mono">full write-up</summary>
+              <div class="project-more-body">
+                <p><strong>Inspiration.</strong> Born from my role bridging communities between Zimbabwe and Kenya, I needed a centralized space to manage joint initiatives, coordinate leadership efforts, and archive public events effectively.</p>
+                <p><strong>Tools.</strong> Next.js, TypeScript, Tailwind CSS, Supabase (Auth + Postgres), Leaflet with OpenStreetMap, and Vercel, shipped as an installable PWA.</p>
+                <p><strong>Experience.</strong> Kenzim taught me to design around real constraints: role-based access for a multi-tier leadership structure, an admin approval workflow for new members, and a full-featured platform that stays deployable entirely on free-tier infrastructure.</p>
+                <p><strong>Design targets.</strong> Under 2 seconds average page load on 4G, 95%+ availability on free-tier infrastructure, and headroom for 5,000+ members without architectural changes.</p>
+                <p><strong>Success targets (to be measured after launch).</strong> 70%+ member adoption within six months, 80% less manual registration and verification effort, 50% faster event registration, 30% higher event attendance, and 40% more engagement with announcements than WhatsApp or email broadcasts.</p>
+              </div>
+            </details>
           </div>
         </article>
 
-        <article class="project-card"
-          data-title="UniTrack"
-          data-status="complete"
-          data-stack="Python, Node.js, MongoDB, Scikit-learn, Firebase">
+        <article class="project-card" data-title="UniTrack" data-file="unitrack.txt" data-status="complete" data-stack="Python, Node.js, MongoDB, Scikit-learn, Firebase">
           <div class="project-reveal">
             <span class="project-index mono">03</span>
             <h3 class="project-title">UniTrack</h3>
-            <p class="project-summary">Attendance and academic-performance tracking system that predicts attendance behaviour and triggers automated alerts.</p>
+            <p class="project-summary">Attendance and academic-performance tracking system that predicts attendance behavior and triggers automated alerts.</p>
+            <p class="project-problem"><span class="mono">problem</span> Attendance tracking that stops at simple logs can't warn anyone early. UniTrack predicts attendance patterns and alerts stakeholders instantly.</p>
             <ul class="project-metrics" aria-label="Key figures">
               <li><strong>92%</strong> prediction accuracy</li>
             </ul>
+            <div class="arch" role="img" aria-label="UniTrack data flow: student records in MongoDB, REST endpoints, a linear-regression model built with Scikit-learn, a Firebase webhook, a real-time alert.">
+              <div class="arch-lane"><span class="arch-tag mono">flow</span><span class="arch-node">Student records (MongoDB)</span><span class="arch-node">REST endpoints</span><span class="arch-node">Linear-regression model</span><span class="arch-node">Firebase webhook</span><span class="arch-node">Real-time alert</span></div>
+            </div>
             <ul class="project-highlights">
               <li><strong>Model behind the API.</strong> A supervised linear-regression model (Scikit-learn) sits behind REST endpoints, so predictions are available to any client on demand.</li>
               <li><strong>Real-time alerts.</strong> Firebase webhooks deliver instant status notifications alongside the analytics engine.</li>
               <li><strong>Flexible data model.</strong> MongoDB document schemas hold longitudinal student records and accommodate evolving metrics.</li>
             </ul>
+            <details class="project-more">
+              <summary class="mono">full write-up</summary>
+              <div class="project-more-body">
+                <p><strong>Inspiration.</strong> Academic administration shouldn't rely on guesswork. I wanted to build an intelligent tracking system that goes beyond simple logs to actively predict attendance patterns and keep stakeholders informed instantly.</p>
+                <p><strong>Tools.</strong> Node.js, MongoDB, Firebase triggers, and a Python Scikit-learn predictive model.</p>
+                <p><strong>Experience.</strong> Merging classical backend logic with a machine learning predictive pipeline (achieving 92% accuracy) was a breakthrough moment in understanding how data science and backend engineering feed into each other.</p>
+              </div>
+            </details>
           </div>
         </article>
 
-        <article class="project-card"
-          data-title="Construction ETL Pipeline"
-          data-status="production-ready"
-          data-stack="Python, PostgreSQL, Scikit-learn, Pandas">
+        <article class="project-card" data-title="Construction ETL Pipeline" data-file="etl.txt" data-status="production-ready" data-stack="Python, PostgreSQL, Pandas, Scikit-learn">
           <div class="project-reveal">
             <span class="project-index mono">04</span>
             <h3 class="project-title">Construction ETL Pipeline</h3>
             <p class="project-summary">Automated pricing-intelligence pipeline for Africa's construction sector: ingest, clean, and forecast in one repeatable workflow.</p>
+            <p class="project-problem"><span class="mono">problem</span> Raw market pricing data is messy and unstructured, and preparing it by hand was slow.</p>
             <ul class="project-metrics" aria-label="Key figures">
-              <li><strong>82%</strong> back-tested accuracy</li>
+              <li><strong>82%</strong> back-tested accuracy (5-year window)</li>
               <li><strong>1,200+</strong> records processed</li>
               <li><strong>60%</strong> less preprocessing time</li>
             </ul>
+            <div class="arch" role="img" aria-label="ETL pipeline: raw pricing data, extraction and cleaning with Python and Pandas, PostgreSQL, a Random Forest model back-tested over five years, price forecasts.">
+              <div class="arch-lane"><span class="arch-tag mono">flow</span><span class="arch-node">Raw pricing data</span><span class="arch-node">Extract + clean (Python, Pandas)</span><span class="arch-node">PostgreSQL</span><span class="arch-node">Random Forest model</span><span class="arch-node">Price forecasts</span></div>
+            </div>
             <ul class="project-highlights">
               <li><strong>Repeatable ETL.</strong> A custom pipeline ingests, cleans, and structures raw pricing data into PostgreSQL, replacing a manual process.</li>
               <li><strong>Forecasting model.</strong> A Random Forest model, trained and back-tested over a strict five-year window.</li>
               <li><strong>Less manual work.</strong> Automating data preparation cut preprocessing time by 60% against the legacy workflow.</li>
             </ul>
+            <details class="project-more">
+              <summary class="mono">full write-up</summary>
+              <div class="project-more-body">
+                <p><strong>Inspiration.</strong> Raw market data is messy and unstructured. I wanted to build a reliable data engineering pipeline that could ingest, clean, and forecast market pricing trends with high historical reliability.</p>
+                <p><strong>Tools.</strong> Python, PostgreSQL, Pandas, and Random Forest regression.</p>
+                <p><strong>Experience.</strong> Back-testing this pipeline over 5 years and hitting 82% forecasting accuracy taught me the rigorous discipline of data hygiene, schema design, and tuning automated ETL jobs for fault tolerance.</p>
+              </div>
+            </details>
           </div>
         </article>
 
-        <article class="project-card" data-title="AI Assistant & Security" data-status="complete" data-stack="Python, LangChain, Celery, Redis, PostgreSQL">
+        <article class="project-card" data-title="AI Assistant & Security" data-file="ai-security.txt" data-status="complete" data-stack="Python, LangChain, Celery, Redis, PostgreSQL">
           <div class="project-reveal">
             <span class="project-index mono">05</span>
             <h3 class="project-title">AI Assistant &amp; Security</h3>
-            <p class="project-summary">Intelligent guardian that audits system logs autonomously and flags anomalies before they become vulnerabilities.</p>
+            <p class="project-summary">Autonomous log-auditing assistant that flags anomalies before they become vulnerabilities.</p>
+            <p class="project-problem"><span class="mono">problem</span> Security monitoring produces an overwhelming volume of logs.</p>
+            <div class="arch" role="img" aria-label="AI assistant flow: system logs, Celery and Redis task queue, LLM inference with LangChain, anomaly flags.">
+              <div class="arch-lane"><span class="arch-tag mono">flow</span><span class="arch-node">System logs</span><span class="arch-node">Celery + Redis queue</span><span class="arch-node">LLM inference (LangChain)</span><span class="arch-node">Anomaly flags</span></div>
+            </div>
             <ul class="project-highlights">
-              <li>Asynchronous task queues paired with LLM-driven inference</li>
+              <li><strong>Autonomous auditing.</strong> Audits system logs on its own and flags anomalies before they become vulnerabilities.</li>
+              <li><strong>Async orchestration.</strong> Celery and Redis task queues drive LLM-based inference, keeping analysis running in the background.</li>
+              <li><strong>Safety boundaries.</strong> Strict boundaries around prompts and model output for the autonomous agent.</li>
             </ul>
+            <details class="project-more">
+              <summary class="mono">full write-up</summary>
+              <div class="project-more-body">
+                <p><strong>Inspiration.</strong> Modern security monitoring produces an overwhelming ocean of logs. I wanted an intelligent guardian that could audit system logs autonomously and flag anomalies before they become vulnerabilities.</p>
+                <p><strong>Tools.</strong> Python, LangChain/LLMs, Celery, Redis, and PostgreSQL.</p>
+                <p><strong>Experience.</strong> Combining asynchronous task queues with LLM-driven inference required strict safety boundaries and efficient prompt-to-queue orchestration, sharpening my skills in building autonomous background agents.</p>
+              </div>
+            </details>
           </div>
         </article>
 
-        <article class="project-card" data-title="Freelance Web Application" data-status="delivered" data-stack="React, Supabase, PostgreSQL, Tailwind">
+        <article class="project-card" data-title="Freelance Web Application" data-file="freelance.txt" data-status="delivered" data-stack="React, Supabase, PostgreSQL, Tailwind CSS">
           <div class="project-reveal">
             <span class="project-index mono">06</span>
             <h3 class="project-title">Freelance Web Application</h3>
-            <p class="project-summary">Zimbabwe Client — Delivered a performant, production-grade web app independently.</p>
+            <p class="project-summary">Production-grade web app delivered independently for a client in Zimbabwe.</p>
+            <p class="project-problem"><span class="mono">problem</span> A client needed working software from loosely defined business requirements.</p>
             <ul class="project-highlights">
-              <li>Translated vague business requirements into clean, deployable software</li>
+              <li><strong>Requirements to deployment.</strong> Turned vague business requirements into clean, deployable software, working solo.</li>
+              <li><strong>Stack.</strong> React front end on Supabase (PostgreSQL), styled with Tailwind CSS.</li>
+              <li><strong>Client delivery.</strong> Managed the client relationship independently, under commercial timelines, at a professional hourly rate.</li>
             </ul>
-          </div>
-        </article>
-
-        <article class="project-card" data-title="Community Development" data-status="completed" data-stack="Leadership, Project Management">
-          <div class="project-reveal">
-            <span class="project-index mono">07</span>
-            <h3 class="project-title">Community Development — Harare</h3>
-            <p class="project-summary">Two-way development project at a local orphanage organizing physical, lasting infrastructure for students.</p>
-            <ul class="project-highlights">
-              <li>Led teams through high-stakes fundraising and brick-and-mortar execution</li>
-            </ul>
+            <details class="project-more">
+              <summary class="mono">full write-up</summary>
+              <div class="project-more-body">
+                <p><strong>Inspiration.</strong> Real-world client delivery demands clean contracts, modular design, and razor-sharp execution under commercial timelines.</p>
+                <p><strong>Tools.</strong> React frontend, Supabase backend, PostgreSQL, and Tailwind CSS.</p>
+                <p><strong>Experience.</strong> Managing a client relationship independently while delivering a performant, production-grade web app at a professional hourly rate reinforced my ability to translate vague business requirements into clean, deployable software.</p>
+              </div>
+            </details>
           </div>
         </article>
 
@@ -256,23 +338,29 @@
       </aside>
     </div>
 
-    <!-- MINI TERMINAL FOR PROJECTS -->
+    <!-- PROJECT TERMINAL -->
     <div class="project-terminal-wrapper">
-      <h3 class="project-terminal-heading mono">Want the full story? Drag a file down here or type `ls`.</h3>
-      
+      <h3 class="project-terminal-heading mono">Prefer a terminal? The write-ups above are one command away.</h3>
+
       <div class="terminal" id="project-terminal">
-        <div class="terminal-bar mono">ryan@projects: ~ (read project deep-dives)</div>
+        <div class="terminal-bar mono">ryan@projects: ~ (read project write-ups)</div>
         <div class="terminal-body" id="project-terminal-body">
           <div class="terminal-output" id="project-terminal-output" aria-live="polite">
             <div class="out-line out-muted">Type `ls` to see available project files.</div>
           </div>
           <label class="terminal-line mono">
             <span class="terminal-prompt">ryan@projects:~$</span>
-            <input id="project-terminal-input" class="terminal-input mono" type="text" autocomplete="off" spellcheck="false" aria-label="Project terminal command input">
+            <input id="project-terminal-input" class="terminal-input mono" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Project terminal command input">
           </label>
         </div>
       </div>
 
+      <div class="terminal-files">
+        <span class="terminal-files-label mono">commands:</span>
+        <button class="cmd-chip mono" data-cmd="help">help</button>
+        <button class="cmd-chip mono" data-cmd="ls">ls</button>
+        <button class="cmd-chip mono" data-cmd="clear">clear</button>
+      </div>
       <div class="terminal-files">
         <span class="terminal-files-label mono">drag or tap:</span>
         <button class="file-chip mono" data-file="annsana.txt">annsana.txt</button>
@@ -281,23 +369,32 @@
         <button class="file-chip mono" data-file="etl.txt">etl.txt</button>
         <button class="file-chip mono" data-file="ai-security.txt">ai-security.txt</button>
         <button class="file-chip mono" data-file="freelance.txt">freelance.txt</button>
-        <button class="file-chip mono" data-file="community.txt">community.txt</button>
+      </div>
+    </div>
+
+    <div class="projects-cta">
+      <p class="projects-cta-text">Hiring for a backend or data role, or have a web or app project in mind?</p>
+      <div class="contact-links">
+        <a class="contact-btn contact-btn-primary" href="mailto:konyangoryan@gmail.com?subject=Role%20or%20project%20inquiry">Email me</a>
+        <button type="button" class="contact-btn" data-copy-email="konyangoryan@gmail.com">Copy email</button>
+        <a class="contact-btn" href="https://github.com/Sadsamon" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="contact-btn" href="https://www.linkedin.com/in/ryan-konyango-431800232" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
     </div>
   </section>
 
   <!-- ACADEMIC & GLOBAL EXPERIENCE GRID -->
   <section id="experience" class="section experience-section">
-    <h2 class="experience-heading">Global Journey</h2>
+    <h2 class="experience-heading">Education &amp; Experience</h2>
 
     <!-- ZIMBABWE -->
     <div id="exp-zimbabwe" class="exp-region">
       <button class="return-pin mono" data-target="globe">◂ back to globe</button>
       
       <div class="photo-grid">
-        <div class="exp-photo"><img src="assets/images/zim1.jpg" alt="Harare" onerror="this.style.display='none'"></div>
-        <div class="exp-photo"><img src="assets/images/zim2.jpg" alt="St. George's" onerror="this.style.display='none'"></div>
-        <div class="exp-photo"><img src="assets/images/zim3.jpg" alt="Community" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/zim1.jpg" loading="lazy" decoding="async" alt="Harare" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/zim2.jpg" loading="lazy" decoding="async" alt="St. George's" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/zim3.jpg" loading="lazy" decoding="async" alt="Community" onerror="this.style.display='none'"></div>
       </div>
 
       <div class="exp-content">
@@ -323,14 +420,14 @@
     <div id="exp-south-africa" class="exp-region">
       <button class="return-pin mono" data-target="globe">◂ back to globe</button>
       <div class="photo-grid">
-        <div class="exp-photo"><img src="assets/images/sa1.jpg" alt="South Africa" onerror="this.style.display='none'"></div>
-        <div class="exp-photo"><img src="assets/images/sa2.jpg" alt="South Africa" onerror="this.style.display='none'"></div>
-        <div class="exp-photo"><img src="assets/images/sa3.jpg" alt="South Africa" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/sa1.jpg" loading="lazy" decoding="async" alt="South Africa" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/sa2.jpg" loading="lazy" decoding="async" alt="South Africa" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/sa3.jpg" loading="lazy" decoding="async" alt="South Africa" onerror="this.style.display='none'"></div>
       </div>
       <div class="exp-content">
         <h3>South Africa</h3>
         <p class="exp-milestone-label mono">Transition</p>
-        <p class="exp-detail exp-placeholder mono">// milestone details pending (add your story here!)</p>
+        <p class="exp-detail">Moving through South Africa widened my sense of scale: a different pace, more developed tech infrastructure, and a glimpse into how larger regional ecosystems operate. It was a bridge between where I grew up and where I was headed next, pushing me to think bigger about what kind of engineer I wanted to become.</p>
       </div>
     </div>
 
@@ -338,14 +435,14 @@
     <div id="exp-kenya" class="exp-region">
       <button class="return-pin mono" data-target="globe">◂ back to globe</button>
       <div class="photo-grid">
-        <div class="exp-photo"><img src="assets/images/ke1.jpg" alt="Kenya" onerror="this.style.display='none'"></div>
-        <div class="exp-photo"><img src="assets/images/ke2.jpg" alt="Kenya" onerror="this.style.display='none'"></div>
-        <div class="exp-photo"><img src="assets/images/ke3.jpg" alt="Kenya" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/ke1.jpg" loading="lazy" decoding="async" alt="Kenya" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/ke2.jpg" loading="lazy" decoding="async" alt="Kenya" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/ke3.jpg" loading="lazy" decoding="async" alt="Kenya" onerror="this.style.display='none'"></div>
       </div>
       <div class="exp-content">
         <h3>Kenya</h3>
         <p class="exp-milestone-label mono">Growth</p>
-        <p class="exp-detail exp-placeholder mono">// milestone details pending (add your story here!)</p>
+        <p class="exp-detail">Spending time in Kenya sharpened my appreciation for practical, community-driven technology: seeing firsthand how mobile-first tools and East African tech culture solve everyday problems at scale. Those experiences directly shaped how I approach projects like <a href="#projects">Kenzim</a>: build resilient, lightweight systems that work reliably for real communities.</p>
       </div>
     </div>
 
@@ -353,9 +450,9 @@
     <div id="exp-india" class="exp-region">
       <button class="return-pin mono" data-target="globe">◂ back to globe</button>
       <div class="photo-grid">
-        <div class="exp-photo"><img src="assets/images/in1.jpg" alt="Punjab" onerror="this.style.display='none'"></div>
-        <div class="exp-photo"><img src="assets/images/in2.jpg" alt="Punjab" onerror="this.style.display='none'"></div>
-        <div class="exp-photo"><img src="assets/images/in3.jpg" alt="Punjab" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/in1.jpg" loading="lazy" decoding="async" alt="Punjab" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/in2.jpg" loading="lazy" decoding="async" alt="Punjab" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/in3.jpg" loading="lazy" decoding="async" alt="Punjab" onerror="this.style.display='none'"></div>
       </div>
       <div class="exp-content">
         <h3>India</h3>
@@ -368,9 +465,9 @@
     <div id="exp-china" class="exp-region">
       <button class="return-pin mono" data-target="globe">◂ back to globe</button>
       <div class="photo-grid">
-        <div class="exp-photo"><img src="assets/images/cn1.jpg" alt="Hangzhou" onerror="this.style.display='none'"></div>
-        <div class="exp-photo"><img src="assets/images/cn2.jpg" alt="Hangzhou" onerror="this.style.display='none'"></div>
-        <div class="exp-photo"><img src="assets/images/cn3.jpg" alt="Hangzhou" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/cn1.jpg" loading="lazy" decoding="async" alt="Hangzhou" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/cn2.jpg" loading="lazy" decoding="async" alt="Hangzhou" onerror="this.style.display='none'"></div>
+        <div class="exp-photo"><img src="assets/images/cn3.jpg" loading="lazy" decoding="async" alt="Hangzhou" onerror="this.style.display='none'"></div>
       </div>
       <div class="exp-content">
         <h3>China</h3>
@@ -399,13 +496,13 @@
   <section id="contact" class="section contact-section">
     <h2 class="contact-heading">Contact</h2>
     <div class="contact-links">
-      <a class="contact-btn contact-btn-primary" href="mailto:konyangoryan@gmail.com">Email me</a>
+      <a class="contact-btn contact-btn-primary" href="mailto:konyangoryan@gmail.com?subject=Role%20or%20project%20inquiry">Email me</a>
       <button type="button" class="contact-btn" data-copy-email="konyangoryan@gmail.com">Copy email</button>
       <a class="contact-btn" href="https://github.com/Sadsamon" target="_blank" rel="noopener noreferrer">GitHub</a>
       <a class="contact-btn" href="https://www.linkedin.com/in/ryan-konyango-431800232" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </div>
 
-    <p class="contact-sub mono">type a command, or drag a file onto the terminal</p>
+    <p class="contact-sub mono">Prefer a terminal? Type a command, drag a file onto it, or tap a command below.</p>
 
     <div class="terminal" id="terminal" role="region" aria-label="Interactive terminal">
       <div class="terminal-bar mono">ryan@portfolio: ~</div>
@@ -416,6 +513,14 @@
           <input id="terminal-input" class="terminal-input mono" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Terminal command input">
         </label>
       </div>
+    </div>
+
+    <div class="terminal-files">
+      <span class="terminal-files-label mono">commands:</span>
+      <button class="cmd-chip mono" data-cmd="help">help</button>
+      <button class="cmd-chip mono" data-cmd="contact">contact</button>
+      <button class="cmd-chip mono" data-cmd="projects">projects</button>
+      <button class="cmd-chip mono" data-cmd="status">status</button>
     </div>
 
     <div class="terminal-files">
